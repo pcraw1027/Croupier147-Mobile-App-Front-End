@@ -36,6 +36,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "expo": {
+      "web": {
+        "bundler": "metro"
+      }
     }
   }
 }
