@@ -1,42 +1,83 @@
 {
   "expo": {
-    "name": "croupier-new",
-    "slug": "croupier-new",
+    "name": "Croupier",
+    "slug": "croupier147",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "croupiernew",
+    "icon": "./assets/icons/cr-147-icon.png",
+    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.croupier",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       },
-      "edgeToEdgeEnabled": true
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "buildNumber": "3"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "ios": {
+            "image": "./assets/images/croupier-logo.png",
+            "imageWidth": 100,
+            "resizeMode": "cover",
+            "backgroundColor": "#ffffff"
+          },
+          "android": {
+            "image": "./assets/images/croupier-logo.png",
+            "imageWidth": 100,
+            "resizeMode": "cover",
+            "backgroundColor": "#ffffff"
+          }
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/InterRegular.ttf",
+            "./assets/fonts/InterMedium.ttf",
+            "./assets/fonts/InterSemibold.ttf",
+            "./assets/fonts/InterBold.ttf"
+          ]
         }
       ]
     ],
+    "expo": {
+      "web": {
+        "bundler": "metro"
+      }
+    },
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "c95fbd9e-512b-4e4d-a7d2-43400a406d7f"
+      }
+    },
+    "owner": "croupier147",
+    "android": {
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.example.croupier"
     }
   }
 }
