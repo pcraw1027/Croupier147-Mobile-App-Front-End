@@ -18,6 +18,18 @@ const Layout = () => {
         name="home/company-profile"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="scan/upload-product-one"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="scan/upload-product-two"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="scan/upload-success"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 };

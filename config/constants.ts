@@ -28,6 +28,7 @@ const API = {
     },
     scan: {
       scan: "/scans",
+      uploadProduct: "/upload_records",
       myScans: "/my_scans",
       topScans: "/top_scans",
     },

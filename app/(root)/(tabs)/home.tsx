@@ -5,7 +5,6 @@ import HomeHightlightCard from "@/components/pageComponent/Home/HomeHighlightCar
 import HomeScanCard from "@/components/pageComponent/Home/HomeScanCard";
 import auth from "@/config/services/auth";
 import landing, { IHomeMyScan, IHomeTopScan } from "@/config/services/landing";
-import { images } from "@/icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -16,6 +15,16 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ToastManager from "toastify-react-native";
+
+const bgColors = [
+  "bg-blue-light",
+  "bg-green-light",
+  "bg-red-light",
+  "bg-purple-light",
+  "bg-amber-light",
+];
+
+const getRandomBg = () => bgColors[Math.floor(Math.random() * bgColors.length)];
 
 const Home = () => {
   const router = useRouter();
@@ -119,13 +128,15 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           className="flex flex-row px-[25px] mb-8"
         >
-          {myScans?.map((scan) => (
+          {myScans?.map((scan, idx) => (
             <HomeScanCard
-              key={scan.id}
-              image={images.ceraveLotion}
-              rating="3.5"
-              className="bg-blue-light"
-              productId={scan.id.toString()}
+              key={idx}
+              image={{
+                uri: scan.media[0]?.file?.url,
+              }}
+              rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
+              productId={scan.product_variant.product_id?.toString() ?? ""}
+              className={getRandomBg()}
             />
           ))}
         </ScrollView>
@@ -149,13 +160,15 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           className="flex flex-row px-[25px] mb-8"
         >
-          {topScans?.map((scan) => (
+          {topScans?.map((scan, idx) => (
             <HomeScanCard
-              key={scan.id}
-              image={images.shaver}
-              rating="3.5"
-              className="bg-green-light"
-              productId={scan.id.toString()}
+              key={idx}
+              image={{
+                uri: scan.media[0]?.file?.url,
+              }}
+              rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
+              productId={scan.product_variant.product_id?.toString() ?? ""}
+              className={getRandomBg()}
             />
           ))}
         </ScrollView>

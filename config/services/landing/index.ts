@@ -34,41 +34,43 @@ interface ILandingOpenMetrics extends ApiResponse {
 }
 
 export interface IHomeMyScan {
-  id: number;
-  company_id: number;
-  name: string;
-  description: string;
-  qrcode: string;
-  size: string;
-  segment_id: number;
-  family_id: number;
-  klass_id: number;
-  brick_id: number;
-  product_category_source_id: number;
-  product_id: number;
-  user_id: number;
-  barcode: string;
-  product_exists: boolean;
-  image: string;
+  scan_count?: number;
+  product_variant: {
+    id?: number;
+    product_id?: number;
+    barcode?: string;
+    created_at?: string;
+    product_name?: string;
+    product_description?: string;
+    product_comany_id?: number;
+    company_name?: string;
+    avrg_rating?: number;
+  };
+  media: {
+    file: {
+      url: string;
+    };
+  }[];
 }
 
 export interface IHomeTopScan {
-  id: number;
-  company_id: number;
-  name: string;
-  description: string;
-  qrcode: string;
-  size: string;
-  segment_id: number;
-  family_id: number;
-  klass_id: number;
-  brick_id: number;
-  product_category_source_id: number;
-  product_id: number;
-  user_id: number;
-  barcode: string;
-  product_exists: boolean;
-  image: string;
+  scan_count?: number;
+  product_variant: {
+    id?: number;
+    product_id?: number;
+    barcode?: string;
+    created_at?: string;
+    product_name?: string;
+    product_description?: string;
+    product_comany_id?: number;
+    company_name?: string;
+    avrg_rating?: number;
+  };
+  media: {
+    file: {
+      url: string;
+    };
+  }[];
 }
 
 const metrics = (): Promise<ILandingMetrics> =>

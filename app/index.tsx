@@ -5,7 +5,7 @@ import InitialScreenActivityStatsCard from "@/components/pageComponent/InitialSc
 import InitialScreenAppBar from "@/components/pageComponent/InitialScreen/InitialScreenAppBar";
 import InitialScreenHighlightCard from "@/components/pageComponent/InitialScreen/InitialScreenHighlightCard";
 import landing, { IHomeTopScan } from "@/config/services/landing";
-import { icons, images } from "@/icons";
+import { icons } from "@/icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -15,6 +15,14 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const bgColors = [
+  "bg-blue-light",
+  "bg-green-light",
+  "bg-red-light",
+  "bg-purple-light",
+  "bg-amber-light",
+];
 
 export default function InitialScreen() {
   const router = useRouter();
@@ -58,8 +66,11 @@ export default function InitialScreen() {
     }
   };
 
+  const getRandomBg = () =>
+    bgColors[Math.floor(Math.random() * bgColors.length)];
+
   return (
-    <SafeAreaView className="bg-white-alt">
+    <SafeAreaView className="bg-white">
       <InitialScreenAppBar />
       <ScrollView className="pt-5" contentContainerClassName="pb-[120px]">
         <View className="px-[25px]">
@@ -93,12 +104,14 @@ export default function InitialScreen() {
           showsHorizontalScrollIndicator={false}
           className="flex flex-row px-[25px] mb-8"
         >
-          {topScans?.map((scan) => (
+          {topScans?.map((scan, idx) => (
             <InitailScreenScanCard
-              key={scan.id}
-              image={images.ceraveLotion}
-              rating="3.5"
-              className="bg-blue-light"
+              key={idx}
+              image={{
+                uri: scan.media[0]?.file?.url,
+              }}
+              rating={scan?.product_variant?.avrg_rating?.toString() ?? "0"}
+              className={getRandomBg()}
             />
           ))}
         </ScrollView>
@@ -115,7 +128,7 @@ export default function InitialScreen() {
         </View>
       </ScrollView>
 
-      <View className="fixed bottom-[120px] left-0 right-0 bg-white px-[28px] h-[100px] w-full flex flex-row items-center justify-between">
+      <View className="fixed bottom-[120px] left-0 right-0 bg-white px-[28px] h-[100px] border-t border-stroke w-full flex flex-row items-center justify-between">
         <View className="flex items-center">
           <CroupierImage
             source={icons.homeActive}

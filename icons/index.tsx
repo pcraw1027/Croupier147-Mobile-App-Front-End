@@ -2,6 +2,7 @@ import barcode from "@/assets/images/barcode.png";
 import ceraveBrand from "@/assets/images/cerave-brand.png";
 import ceraveLotion from "@/assets/images/cerave-lotion.png";
 import cerave from "@/assets/images/cerave.png";
+import check from "@/assets/images/check.png";
 import comingSoonProduct from "@/assets/images/coming-soon-product.png";
 import croupierLogo from "@/assets/images/croupier-logo.png";
 import croupierScore80 from "@/assets/images/croupier-score-80.png";
@@ -22,6 +23,7 @@ import threeDlock from "@/assets/images/three-d-lock.png";
 
 import aboutUsIcon from "@/assets/icons/about-us.png";
 import activitiesIcon from "@/assets/icons/activities.png";
+import addBox from "@/assets/icons/add-box.png";
 import arrowDiagonalRight from "@/assets/icons/arrow-diagonal-right.png";
 import arrowRight from "@/assets/icons/arrow-right.png";
 import backIcon from "@/assets/icons/back-icon.png";
@@ -33,6 +35,7 @@ import clock from "@/assets/icons/clock.png";
 import closeIcon from "@/assets/icons/close-icon.png";
 import comment from "@/assets/icons/commet.png";
 import contactUsIcon from "@/assets/icons/contact-us.png";
+import deleteIcon from "@/assets/icons/delete.png";
 import dislikeOutlined from "@/assets/icons/dislke-outlined.png";
 import filterIcon from "@/assets/icons/filter-icon.png";
 import grayArrowRight from "@/assets/icons/gray-arrow-right.png";
@@ -53,6 +56,7 @@ import scanActive from "@/assets/icons/scan-active.png";
 import scanInactive from "@/assets/icons/scan-inactive.png";
 import searchActive from "@/assets/icons/search-active.png";
 import searchInactive from "@/assets/icons/search-inactive.png";
+import starOutlined from "@/assets/icons/star-outlined.png";
 import star from "@/assets/icons/star.png";
 import yellowCompany from "@/assets/icons/yellow-company-icon.png";
 
@@ -78,6 +82,7 @@ export const images = {
   barcode,
   scanIllustration,
   searchIllustration,
+  check,
 };
 
 export const icons = {
@@ -116,4 +121,7 @@ export const icons = {
   legalIcon,
   contactUsIcon,
   logoutIcon,
+  addBox,
+  deleteIcon,
+  starOutlined,
 };

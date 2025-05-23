@@ -18,6 +18,9 @@ declare interface InputFieldProps {
   className?: string;
   maxLength?: number;
   disabled?: boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
+  textarea?: boolean;
 }
 
 const CustomInputField = ({
@@ -31,6 +34,9 @@ const CustomInputField = ({
   className,
   maxLength,
   disabled,
+  multiline,
+  numberOfLines,
+  textarea,
   ...props
 }: InputFieldProps) => {
   const [focus, setFocus] = useState(false);
@@ -53,13 +59,17 @@ const CustomInputField = ({
       <InterMediumText
         text={label ?? ""}
         className={`absolute left-[20px] ${
-          handleLabelStyle() ? "top-[10%] text-[14px]" : "top-[35%] text-[16px]"
+          handleLabelStyle()
+            ? "top-[10px] text-[14px]"
+            : "top-[20px] text-[16px]"
         } text-text-neutral`}
       />
 
       <TextInput
         value={value}
-        className={`rounded-full px-[20px] font-JakartaSemiBold text-[15px] flex-1 text-left placeholder:text-neutral-300 ${inputStyle}`}
+        className={`rounded-full px-[20px] font-JakartaSemiBold text-[15px] flex-1 text-left placeholder:text-neutral-300 ${
+          textarea ? "pt-[32px]" : "pt-[20px]"
+        } ${inputStyle}`}
         keyboardType={keyboardType}
         autoCapitalize={keyboardType == "email-address" ? "none" : "sentences"}
         secureTextEntry={showPassword}
@@ -68,6 +78,8 @@ const CustomInputField = ({
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         maxLength={maxLength}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
         {...props}
       />
 

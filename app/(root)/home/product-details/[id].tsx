@@ -12,16 +12,28 @@ import {
   ActivityIndicator,
   ScrollView,
   StatusBar,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ToastManager from "toastify-react-native";
 
+const bgColors = [
+  "bg-blue-light",
+  "bg-green-light",
+  "bg-red-light",
+  "bg-purple-light",
+  "bg-amber-light",
+];
+
+const getRandomBg = () => bgColors[Math.floor(Math.random() * bgColors.length)];
+
 const ProductDetailsPage = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const [loading, setLoading] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [productDetails, setProductDetails] = useState<IProduct>();
 
   useEffect(() => {
@@ -33,8 +45,6 @@ const ProductDetailsPage = () => {
       setLoading(true);
 
       const response = await product.productDetails(id.toString());
-
-      console.log(response.product_variants[0]?.image?.url);
 
       setProductDetails(response);
     } catch (error: any) {
@@ -109,7 +119,7 @@ const ProductDetailsPage = () => {
                     />
                     <View className="flex flex-row items-center">
                       <InterSemiboldText
-                        text="L'Oréal"
+                        text=""
                         className="text-accent-2 text-lg"
                       />
                       <CroupierImage
@@ -128,10 +138,13 @@ const ProductDetailsPage = () => {
 
               <View className="px-6 mb-5">
                 <View className="flex flex-row items-center mb-2">
-                  <View className="w-[180px] h-[180px] flex items-center justify-center bg-blue-light rounded-[8px] mr-[16px]">
+                  <View
+                    className={`w-[180px] h-[180px] flex items-center justify-center rounded-[8px] mr-[16px] ${getRandomBg()}`}
+                  >
                     <CroupierImage
                       source={{
-                        uri: productDetails?.product_variants[0]?.image?.url,
+                        uri: productDetails?.product_variants[0]?.media[0]?.file
+                          ?.url,
                       }}
                       className="w-[88px] h-[160px]"
                       resizeMode="cover"
@@ -162,7 +175,8 @@ const ProductDetailsPage = () => {
                       />
                       <InterSemiboldText
                         text={
-                          productDetails?.product_variants[0]?.barcode ?? ""
+                          productDetails?.product_variants[0]?.product_variant
+                            ?.barcode ?? ""
                         }
                         className="text-base"
                       />
@@ -172,13 +186,18 @@ const ProductDetailsPage = () => {
 
                 <View className="flex flex-row">
                   <InterMediumText
-                    text="CeraVe Daily Moisturizing Lot... "
-                    className="text-base text-text-neutral"
+                    text={productDetails?.product?.description ?? ""}
+                    className="text-base text-text-neutral flex-1"
+                    numberOfLines={!showMore ? 1 : undefined}
                   />
-                  <InterSemiboldText
-                    text="learn more"
-                    className="text-base text-accent-2"
-                  />
+                  {!showMore && (
+                    <TouchableOpacity onPress={() => setShowMore(!showMore)}>
+                      <InterSemiboldText
+                        text={showMore ? "show less" : "learn more"}
+                        className="text-base text-accent-2"
+                      />
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
 
@@ -190,26 +209,26 @@ const ProductDetailsPage = () => {
                 <View className="flex flex-row items-center justify-between">
                   <View className="flex flex-row items-center">
                     <InterSemiboldText
-                      text="4.5"
+                      text="0"
                       className="text-base text-accent-2 mr-1"
                     />
                     <View className="flex flex-row items-center mr-1">
-                      {[1, 2, 3, 4].map((star) => (
+                      {[1, 2, 3, 4, 5].map((star) => (
                         <CroupierImage
                           key={star}
-                          source={icons.star}
+                          source={icons.starOutlined}
                           className="w-[20px] h-[20px]"
                         />
                       ))}
                     </View>
                     <InterSemiboldText
-                      text="(2400)"
+                      text="(0)"
                       className="text-base text-text-neutral"
                     />
                   </View>
 
                   <InterSemiboldText
-                    text="Reviews(1864)"
+                    text="Reviews(0)"
                     className="text-base text-text-neutral"
                   />
                 </View>

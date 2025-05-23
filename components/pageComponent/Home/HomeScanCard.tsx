@@ -29,7 +29,7 @@ const HomeScanCard = ({ image, rating, className, productId }: CardProps) => {
           className="w-[100px] h-[170px] rounded-[8px] absolute bottom-0 top-0 right-0 left-0"
         />
 
-        <CroupierImage source={image} className="w-[100px] h-[128px]" />
+        <CroupierImage source={image} className="w-[80px] h-[128px]" />
 
         <View className="absolute bottom-3 left-3 flex flex-row items-center">
           <InterSemiboldText text={rating} className="text-white text-[12px]" />

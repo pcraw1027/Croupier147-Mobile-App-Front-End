@@ -15,7 +15,7 @@ interface ApiResponse {
 type Payload = Record<string, unknown>;
 
 interface IScan extends ApiResponse {
-  product: {
+  product?: {
     id: number;
     company_id?: number;
     name?: string;
@@ -28,7 +28,7 @@ interface IScan extends ApiResponse {
     brick_id?: number;
     product_category_source_id?: number;
   };
-  product_variants: {
+  product_variants?: {
     id?: number;
     product_id?: number;
     barcode?: string;
@@ -36,6 +36,12 @@ interface IScan extends ApiResponse {
       url?: string;
     };
   }[];
+  scan?: {
+    id: number;
+    product_id?: number;
+    barcode?: string;
+    product_exists?: boolean;
+  };
 }
 
 interface IMyScanRecords extends ApiResponse {
@@ -43,25 +49,23 @@ interface IMyScanRecords extends ApiResponse {
 }
 
 export interface IMyScan {
-  id: number;
-  company_id?: number;
-  name?: string;
-  description?: string;
-  qrcode?: string;
-  size?: string;
-  segment_id?: number;
-  family_id?: number;
-  klass_id?: number;
-  brick_id?: number;
-  created_at: string;
-  updated_at: string;
-  product_category_source_id?: number;
-  product_id?: number;
-  user_id?: number;
-  scan_date?: string;
-  barcode?: string;
-  product_exists?: boolean;
-  image?: string;
+  scan_count?: number;
+  product_variant: {
+    id?: number;
+    product_id?: number;
+    barcode?: string;
+    created_at?: string;
+    product_name?: string;
+    product_description?: string;
+    product_comany_id?: number;
+    company_name?: string;
+    avrg_rating?: number;
+  };
+  media: {
+    file: {
+      url: string;
+    };
+  }[];
 }
 
 interface ITopScanRecords extends ApiResponse {
@@ -69,30 +73,33 @@ interface ITopScanRecords extends ApiResponse {
 }
 
 export interface ITopScan {
-  id: number;
-  company_id?: number;
-  name?: string;
-  description?: string;
-  qrcode?: string;
-  size?: string;
-  segment_id?: number;
-  family_id?: number;
-  klass_id?: number;
-  brick_id?: number;
-  created_at: string;
-  updated_at: string;
-  product_category_source_id?: number;
-  product_id?: number;
-  user_id?: number;
-  scan_date?: string;
-  barcode?: string;
-  product_exists?: boolean;
-  image?: string;
-  ranked_barcode: string;
+  scan_count?: number;
+  product_variant: {
+    id?: number;
+    product_id?: number;
+    barcode?: string;
+    created_at?: string;
+    product_name?: string;
+    product_description?: string;
+    product_comany_id?: number;
+    company_name?: string;
+    avrg_rating?: number;
+  };
+  media: {
+    file: {
+      url: string;
+    };
+  }[];
 }
 
 const scanProduct = (payload: Payload): Promise<IScan> =>
   request.post({ payload: payload, route: routes.scan.scan });
+
+const uploadProduct = (payload: any): Promise<ApiResponse> =>
+  request.postFormDataPost({
+    payload: payload,
+    route: routes.scan.uploadProduct,
+  });
 
 const myScans = (): Promise<IMyScanRecords> =>
   request.get({ route: routes.scan.myScans });
@@ -102,6 +109,7 @@ const topScans = (): Promise<ITopScanRecords> =>
 
 const scan = {
   scanProduct,
+  uploadProduct,
   myScans,
   topScans,
 };

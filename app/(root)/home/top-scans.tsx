@@ -2,7 +2,7 @@ import CroupierImage from "@/components/common/components/CroupierImage";
 import InterBoldText from "@/components/common/components/Text/InterBoldText";
 import ProductScanCard from "@/components/pageComponent/Home/ProductScanCard";
 import scan, { IMyScan } from "@/config/services/scan";
-import { icons, images } from "@/icons";
+import { icons } from "@/icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -13,6 +13,16 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const bgColors = [
+  "bg-blue-light",
+  "bg-green-light",
+  "bg-red-light",
+  "bg-purple-light",
+  "bg-amber-light",
+];
+
+const getRandomBg = () => bgColors[Math.floor(Math.random() * bgColors.length)];
 
 const TopScans = () => {
   const router = useRouter();
@@ -61,14 +71,18 @@ const TopScans = () => {
               <ActivityIndicator size="large" />
             </View>
           ) : (
-            topScans?.map((scan) => (
+            topScans?.map((scan, idx) => (
               <ProductScanCard
-                key={scan.id}
-                title={scan.name ?? ""}
-                company="Procter & Gamble"
-                image={images.shampoo}
-                rating="3.5"
-                className="bg-blue-light"
+                key={idx}
+                title={scan?.product_variant?.product_name ?? ""}
+                company={scan?.product_variant?.company_name ?? "-"}
+                image={{
+                  uri: scan?.media[0]?.file?.url,
+                }}
+                rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
+                scanCount={scan.scan_count?.toString() ?? "0"}
+                productId={scan.product_variant?.product_id?.toString()}
+                className={getRandomBg()}
               />
             ))
           )}

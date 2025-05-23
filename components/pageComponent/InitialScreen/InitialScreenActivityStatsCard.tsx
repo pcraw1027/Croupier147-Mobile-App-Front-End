@@ -13,7 +13,7 @@ declare interface ActiviyStatProp {
 
 const InitialScreenActivityStatsCard = ({ activityStats }: ActiviyStatProp) => {
   return (
-    <View className=" bg-white rounded-[16px] px-[24px] py-[16px] mb-5">
+    <View className="shadow-stats-card bg-white rounded-[16px] px-[24px] py-[16px] mb-5">
       <View>
         <View className="flex flex-row items-center justify-between mb-3">
           <InterSemiboldText

@@ -28,13 +28,18 @@ export interface IProduct extends ApiResponse {
     brick_id?: number;
     product_category_source_id?: number;
   };
+  company_name?: string;
   product_variants: {
-    id?: number;
-    product_id?: number;
-    barcode?: string;
-    image?: {
-      url?: string;
+    product_variant: {
+      id: number;
+      product_id?: number;
+      barcode?: string;
     };
+    media: {
+      file: {
+        url: string;
+      };
+    }[];
   }[];
 }
 

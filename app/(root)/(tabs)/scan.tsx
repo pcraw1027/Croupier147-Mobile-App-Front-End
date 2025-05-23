@@ -3,6 +3,7 @@ import CustomButton from "@/components/common/components/CustomButton";
 import InterSemiboldText from "@/components/common/components/Text/InterSemiboldText";
 import helpers from "@/components/common/utils/helper";
 import scan from "@/config/services/scan";
+import useStore from "@/config/store";
 import { icons, images } from "@/icons";
 import logger from "@/logger.config";
 import { useIsFocused } from "@react-navigation/native";
@@ -37,6 +38,9 @@ const Scan = () => {
 
   const isPermissionGranted = Boolean(permission?.granted);
 
+  const upload = useStore((state) => state.upload);
+  const setUpload = useStore((state) => state.setUpload);
+
   useEffect(() => {
     if (!isPermissionGranted) {
       requestPermission();
@@ -62,12 +66,13 @@ const Scan = () => {
       };
       const response = await scan.scanProduct(body);
 
-      console.log(response);
-      if (response) {
-        router.replace(`/(root)/home/product-details/${response.product.id}`);
+      if (response?.scan?.product_exists == false) {
+        setShowNoMatchFound(true);
+        setUpload({ ...upload, scanId: response?.scan?.id, barcode: data });
+      } else {
+        router.replace(`/(root)/home/product-details/${response?.product?.id}`);
       }
     } catch (error: any) {
-      setShowNoMatchFound(true);
       helpers.openNotification({
         message: error.message,
         type: "error",
@@ -76,17 +81,6 @@ const Scan = () => {
     } finally {
       setLoading(false);
     }
-
-    // if (data.length > 0) {
-    //   setLoading(true);
-
-    //   setTimeout(() => {
-    // router.push("/(root)/home/product-details");
-    //     setCode(data);
-    //     setShowNoMatchFound(true);
-    //     setLoading(false);
-    //   }, 5000);
-    // }
   };
 
   if (!isPermissionGranted) {
@@ -228,7 +222,11 @@ const Scan = () => {
             />
           </View>
 
-          <CustomButton title="Upload this product" className="mb-10" />
+          <CustomButton
+            title="Upload this product"
+            className="mb-10"
+            onPress={() => router.push("/(root)/scan/upload-product-one")}
+          />
 
           <TouchableWithoutFeedback
             onPress={() => {
