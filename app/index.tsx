@@ -110,7 +110,9 @@ export default function InitialScreen() {
               image={{
                 uri: scan.media[0]?.file?.url,
               }}
-              rating={scan?.product_variant?.avrg_rating?.toString() ?? "0"}
+              rating={
+                Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
+              }
               className={getRandomBg()}
             />
           ))}

@@ -15,7 +15,15 @@ const Layout = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="home/company-profile"
+        name="home/product-ratings/[id]"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="home/company-profile/[id]"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="home/company-ratings/[id]"
         options={{ headerShown: false }}
       />
       <Stack.Screen

@@ -41,6 +41,7 @@ import filterIcon from "@/assets/icons/filter-icon.png";
 import grayArrowRight from "@/assets/icons/gray-arrow-right.png";
 import greenScan from "@/assets/icons/green-scan-icon.png";
 import homeActive from "@/assets/icons/home-active.png";
+import homeInactiveDark from "@/assets/icons/home-inactive-dark.png";
 import homeInactive from "@/assets/icons/home-inactive.png";
 import invitesIcon from "@/assets/icons/invites.png";
 import legalIcon from "@/assets/icons/legal.png";
@@ -49,13 +50,17 @@ import likeOutlined from "@/assets/icons/like-outlined.png";
 import logoutIcon from "@/assets/icons/logout.png";
 import personalisationIcon from "@/assets/icons/personalisation.png";
 import profileActive from "@/assets/icons/profile-active.png";
+import profileInactiveDark from "@/assets/icons/profile-inactive-dark.png";
 import profileInactive from "@/assets/icons/profile-inactive.png";
 import profileIcon from "@/assets/icons/profile.png";
 import redProduct from "@/assets/icons/red-product-icon.png";
 import scanActive from "@/assets/icons/scan-active.png";
+import scanInactiveDark from "@/assets/icons/scan-inactive-dark.png";
 import scanInactive from "@/assets/icons/scan-inactive.png";
 import searchActive from "@/assets/icons/search-active.png";
+import searchInactiveDark from "@/assets/icons/search-inactive-dark.png";
 import searchInactive from "@/assets/icons/search-inactive.png";
+import starHalf from "@/assets/icons/star-half.png";
 import starOutlined from "@/assets/icons/star-outlined.png";
 import star from "@/assets/icons/star.png";
 import yellowCompany from "@/assets/icons/yellow-company-icon.png";
@@ -100,9 +105,13 @@ export const icons = {
   searchInactive,
   profileInactive,
   homeActive,
+  homeInactiveDark,
   scanActive,
+  scanInactiveDark,
   searchActive,
+  searchInactiveDark,
   profileActive,
+  profileInactiveDark,
   bookmark,
   likeOutlined,
   dislikeOutlined,
@@ -124,4 +133,5 @@ export const icons = {
   addBox,
   deleteIcon,
   starOutlined,
+  starHalf,
 };

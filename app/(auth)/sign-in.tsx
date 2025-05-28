@@ -11,9 +11,8 @@ import logger from "@/logger.config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -32,6 +31,14 @@ const SignInPage = () => {
     password: "",
   });
 
+  useEffect(() => {
+    AsyncStorage.getItem("user-email").then((storedEmail) => {
+      if (storedEmail) {
+        setForm({ ...form, email: JSON.parse(storedEmail) });
+      }
+    });
+  }, []);
+
   const formik = useFormik({
     initialValues: {},
     onSubmit: async ({}, { setSubmitting }) => {
@@ -46,6 +53,8 @@ const SignInPage = () => {
           constants.COOKIES.key,
           JSON.stringify(response.token)
         );
+
+        await AsyncStorage.setItem("user-email", JSON.stringify(form.email));
 
         helpers.openNotification({
           message: response.message,
@@ -81,82 +90,81 @@ const SignInPage = () => {
           fontFamily: "Inter-Medium",
         }}
       />
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerClassName="flex flex-col justify-between h-full"
-          >
-            <View className="flex flex-row items-center justify-end">
-              <TouchableOpacity
-                onPress={() => {
-                  router.replace("/");
-                }}
-              >
-                <CroupierImage
-                  source={icons.closeIcon}
-                  className="w-[40px] h-[40px]"
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="flex flex-col justify-between h-full"
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="flex flex-row items-center justify-end">
+            <TouchableOpacity
+              onPress={() => {
+                router.replace("/");
+              }}
+            >
+              <CroupierImage
+                source={icons.closeIcon}
+                className="w-[40px] h-[40px]"
+              />
+            </TouchableOpacity>
+          </View>
+          <View className="">
+            <InterBoldText
+              text="Sign in to continue"
+              className="text-[28px] mb-[40px]"
+            />
+            <CustomInputField
+              label="Email address"
+              keyboardType="email-address"
+              className="mb-[32px]"
+              value={form.email}
+              onChangeText={(text) => setForm({ ...form, email: text })}
+            />
+
+            <CustomInputField
+              label="Password"
+              secureTextEntry={true}
+              className="mb-[8px]"
+              value={form.password}
+              onChangeText={(text) => setForm({ ...form, password: text })}
+            />
+
+            <TouchableWithoutFeedback
+              onPress={() => router.push("/(auth)/forgot-password")}
+            >
+              <View className="flex flex-row items-center justify-end mb-[100px] pr-[20px]">
+                <InterSemiboldText
+                  text="Forgot password?"
+                  className="text-accent-2 text-[14px]"
                 />
-              </TouchableOpacity>
-            </View>
-
-            <View className="">
-              <InterBoldText
-                text="Sign in to continue"
-                className="text-[28px] mb-[40px]"
-              />
-              <CustomInputField
-                label="Email address"
-                keyboardType="email-address"
-                className="mb-[32px]"
-                value={form.email}
-                onChangeText={(text) => setForm({ ...form, email: text })}
-              />
-
-              <CustomInputField
-                label="Password"
-                secureTextEntry={true}
-                className="mb-[8px]"
-                value={form.password}
-                onChangeText={(text) => setForm({ ...form, password: text })}
-              />
-
-              <TouchableWithoutFeedback
-                onPress={() => router.push("/(auth)/forgot-password")}
-              >
-                <View className="flex flex-row items-center justify-end mb-[100px] pr-[20px]">
-                  <InterSemiboldText
-                    text="Forgot password?"
-                    className="text-accent-2 text-[14px]"
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-
-              <CustomButton
-                loading={isSubmitting}
-                disabled={isSubmitting}
-                title="Sign in"
-                className="mb-[80px]"
-                onPress={() => handleSubmit()}
-              />
-
-              <View className="flex flex-row items-center justify-center">
-                <Link href="/(auth)/sign-up-one">
-                  <InterSemiboldText
-                    text="Don't have an account? "
-                    className="text-[16px] text-text-neutral"
-                  />
-                  <InterSemiboldText
-                    text="Sign up"
-                    className="text-[16px] text-accent-2"
-                  />
-                </Link>
               </View>
+            </TouchableWithoutFeedback>
+
+            <CustomButton
+              loading={isSubmitting}
+              disabled={isSubmitting}
+              title="Sign in"
+              className="mb-[80px]"
+              onPress={() => handleSubmit()}
+            />
+
+            <View className="flex flex-row items-center justify-center">
+              <Link href="/(auth)/sign-up-one">
+                <InterSemiboldText
+                  text="Don't have an account? "
+                  className="text-[16px] text-text-neutral"
+                />
+                <InterSemiboldText
+                  text="Sign up"
+                  className="text-[16px] text-accent-2"
+                />
+              </Link>
             </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
       <StatusBar barStyle={"dark-content"} />
     </SafeAreaView>

@@ -34,9 +34,9 @@ const CustomInputField = ({
   className,
   maxLength,
   disabled,
-  multiline,
-  numberOfLines,
-  textarea,
+  multiline = false,
+  numberOfLines = 1,
+  textarea = false,
   ...props
 }: InputFieldProps) => {
   const [focus, setFocus] = useState(false);

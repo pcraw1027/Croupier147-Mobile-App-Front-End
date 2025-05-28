@@ -3,7 +3,7 @@ import InterMediumText from "@/components/common/components/Text/InterMediumText
 import InterSemiboldText from "@/components/common/components/Text/InterSemiboldText";
 import helpers from "@/components/common/utils/helper";
 import HomeHightlightCard from "@/components/pageComponent/Home/HomeHighlightCard";
-import product, { IProduct } from "@/config/services/product";
+import company, { ICompany } from "@/config/services/company";
 import { icons, images } from "@/icons";
 import logger from "@/logger.config";
 import { useFocusEffect } from "@react-navigation/native";
@@ -18,38 +18,26 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ToastManager from "toastify-react-native";
 
-const bgColors = [
-  "bg-blue-light",
-  "bg-green-light",
-  "bg-red-light",
-  "bg-purple-light",
-  "bg-amber-light",
-];
-
-const getRandomBg = () => bgColors[Math.floor(Math.random() * bgColors.length)];
-
-const ProductDetailsPage = () => {
+const CompanyProfilePage = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
-  const [loading, setLoading] = useState(false);
-  const [showMore, setShowMore] = useState(false);
-  const [productDetails, setProductDetails] = useState<IProduct>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [companyDetails, setCompanyDetails] = useState<ICompany>();
 
   useFocusEffect(
     useCallback(() => {
-      getProductDetails();
+      getCompanyDetails();
     }, [id])
   );
 
-  const getProductDetails = async () => {
+  const getCompanyDetails = async () => {
     try {
       setLoading(true);
 
-      const response = await product.productDetails(id.toString());
+      const response = await company.companyDetails(id.toString());
 
-      setProductDetails(response);
+      setCompanyDetails(response);
     } catch (error: any) {
       helpers.openNotification({
         message: error.message,
@@ -63,117 +51,62 @@ const ProductDetailsPage = () => {
 
   return (
     <SafeAreaView className="bg-white">
-      <ToastManager
-        showCloseIcon={false}
-        duration={5000}
-        animationStyle="upInUpOut"
-        animationOutTiming={500}
-        animationInTiming={500}
-        width={300}
-        textStyle={{
-          fontSize: 12,
-          fontFamily: "Inter-Medium",
-        }}
-      />
       {loading ? (
         <View className="flex items-center justify-center h-[90vh]">
           <ActivityIndicator size="large" />
         </View>
       ) : (
         <View>
-          <View className="bg-white flex flex-col h-screen mt-5">
+          <View className="flex flex-row items-center justify-between mb-3 px-5">
+            <TouchableOpacity onPress={() => router.back()}>
+              <CroupierImage
+                source={icons.backIcon}
+                className="w-[40px] h-[40px]"
+              />
+            </TouchableOpacity>
+
+            <InterSemiboldText
+              text="Company Information"
+              className="text-pry text-2xl"
+            />
+
+            <View className="w-[20px]" />
+          </View>
+          <View className="bg-white flex flex-col h-screen">
             <ScrollView
               contentContainerClassName="pb-[150px]"
               showsVerticalScrollIndicator={false}
             >
-              <View className="flex flex-row items-start justify-between px-6 mb-2">
-                <View className="flex-1 mr-10">
+              <View className="pl-6 pr-4 flex flex-row items-center justify-between mb-2">
+                <View className="">
                   <InterSemiboldText
-                    text={productDetails?.product.name ?? ""}
-                    className="text-2xl text-pry"
-                    numberOfLines={2}
+                    text={companyDetails?.company?.name ?? "-"}
+                    className="text-pry text-2xl"
                   />
                   <InterSemiboldText
-                    text={productDetails?.product.size ?? ""}
-                    className="text-text-neutral text-sm"
+                    text={companyDetails?.company?.sector ?? "-"}
+                    className="text-text-neutral text-base"
                   />
                 </View>
 
-                <TouchableWithoutFeedback
-                  onPress={() => router.dismissTo("/(root)/(tabs)/home")}
-                >
-                  <View>
-                    <CroupierImage
-                      source={icons.closeIcon}
-                      className="w-10 h-10"
-                    />
-                  </View>
-                </TouchableWithoutFeedback>
-              </View>
-
-              <View className="pl-6 pr-4 flex flex-row items-center justify-between mb-2">
-                <TouchableWithoutFeedback
-                  onPress={() => {
-                    if (!productDetails?.product?.company_id) {
-                      helpers.openNotification({
-                        message: "Company not found",
-                        type: "error",
-                      });
-                    } else {
-                      router.push(
-                        `/(root)/home/company-profile/${productDetails?.product?.company_id}`
-                      );
-                    }
-                  }}
-                >
-                  <View className="flex flex-row items-center">
-                    <InterSemiboldText
-                      text="Company: "
-                      className="text-base text-text-dark"
-                    />
-                    <View className="flex flex-row items-center">
-                      <InterSemiboldText
-                        text={productDetails?.company_name ?? "-"}
-                        className="text-accent-2 text-lg"
-                      />
-                      <CroupierImage
-                        source={icons.arrowRight}
-                        className="w-2.5 h-2.5 ml-1"
-                      />
-                    </View>
-                  </View>
-                </TouchableWithoutFeedback>
-
                 <CroupierImage
-                  source={images.croupierScore}
+                  source={images.croupierScore80}
                   className="w-20 h-20"
                 />
               </View>
 
               <View className="px-6 mb-5">
                 <View className="flex flex-row items-center mb-2">
-                  <View
-                    className={`w-[180px] h-[180px] flex items-center justify-center rounded-[8px] mr-[16px] ${getRandomBg()}`}
-                  >
+                  <View className="w-[11.25rem] h-[11.25rem] flex items-center justify-center bg-white-alt rounded-[8px] mr-[16px]">
                     <CroupierImage
                       source={{
-                        uri: productDetails?.product_variants[0]?.media[0]?.file
-                          ?.url,
+                        uri: companyDetails?.company?.logo?.url,
                       }}
-                      className="w-[88px] h-[160px]"
-                      resizeMode="cover"
+                      className="w-[8rem] h-[11.25rem]"
                     />
                   </View>
 
                   <View>
-                    <View className="mb-6">
-                      <InterSemiboldText
-                        text="SCANS"
-                        className="text-xs text-text-neutral mb-1"
-                      />
-                      <InterSemiboldText text="0" className="text-base" />
-                    </View>
-
                     <View className="mb-6">
                       <InterSemiboldText
                         text="SEARCHES"
@@ -182,56 +115,158 @@ const ProductDetailsPage = () => {
                       <InterSemiboldText text="0" className="text-base" />
                     </View>
 
-                    <View>
+                    <View className="mb-6">
                       <InterSemiboldText
-                        text="BARCODE"
+                        text="COMPANY CEO"
                         className="text-xs text-text-neutral mb-1"
                       />
+                      <InterSemiboldText text="-" className="text-base" />
+                    </View>
+
+                    <View>
                       <InterSemiboldText
-                        text={
-                          productDetails?.product_variants[0]?.product_variant
-                            ?.barcode ?? ""
-                        }
-                        className="text-base"
+                        text="PARENT COMPANY"
+                        className="text-xs text-text-neutral mb-1"
                       />
+                      <InterSemiboldText text="N/A" className="text-base" />
                     </View>
                   </View>
                 </View>
+              </View>
 
-                <View className="flex flex-row">
-                  <InterMediumText
-                    text={productDetails?.product?.description ?? ""}
-                    className="text-base text-text-neutral flex-1"
-                    numberOfLines={!showMore ? 1 : undefined}
+              <View className="mb-5">
+                <View className="px-6">
+                  <InterSemiboldText
+                    text="SUBSIDIARIES / BRANDS"
+                    className="text-sm text-text-neutral tracking-wider"
                   />
-                  {!showMore && (
-                    <TouchableOpacity onPress={() => setShowMore(!showMore)}>
-                      <InterSemiboldText
-                        text={showMore ? "show less" : "learn more"}
-                        className="text-base text-accent-2"
-                      />
-                    </TouchableOpacity>
-                  )}
                 </View>
+
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  className="flex flex-row px-[25px]"
+                >
+                  {/* <View className="mr-5">
+                    <CroupierImage
+                      source={images.ceraveBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="CeraVe"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.garnierBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Garnier"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.kihelsBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Kihel's"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.lancomeBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Lancome"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.maybeBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Maybe Line"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.ceraveBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="CeraVe"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.garnierBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Garnier"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.kihelsBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Kihel's"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.lancomeBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Lancome"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View>
+                  <View className="mr-5">
+                    <CroupierImage
+                      source={images.maybeBrand}
+                      className="w-16 h-16"
+                    />
+                    <InterSemiboldText
+                      text="Maybe Line"
+                      className="text-sm text-accent-2 text-center"
+                    />
+                  </View> */}
+                </ScrollView>
               </View>
 
               <TouchableWithoutFeedback
                 onPress={() =>
                   router.push(
-                    `/(root)/home/product-ratings/${productDetails?.product_variants[0]?.product_variant?.product_id}`
+                    `/(root)/home/company-ratings/${companyDetails?.company?.id}`
                   )
                 }
               >
                 <View className="px-6 mb-5">
                   <InterSemiboldText
-                    text="Product Ratings"
+                    text="Company Ratings"
                     className="text-lg mb-1"
                   />
                   <View className="flex flex-row items-center justify-between">
                     <View className="flex flex-row items-center">
                       <InterSemiboldText
                         text={
-                          productDetails?.review_stats?.average_ratings?.toFixed(
+                          companyDetails?.review_stats?.average_ratings?.toFixed(
                             1
                           ) ?? "0"
                         }
@@ -241,18 +276,18 @@ const ProductDetailsPage = () => {
                         {[1, 2, 3, 4, 5].map((star) => {
                           let icon;
                           if (
-                            (productDetails?.review_stats?.average_ratings ??
+                            (companyDetails?.review_stats?.average_ratings ??
                               0) >= star
                           ) {
                             icon = icons.star;
                           } else if (
-                            (productDetails?.review_stats?.average_ratings ??
+                            (companyDetails?.review_stats?.average_ratings ??
                               0) >=
                             star - 0.5
                           ) {
-                            icon = icons.starHalf; // Half star
+                            icon = icons.starHalf;
                           } else {
-                            icon = icons.starOutlined; // Empty star
+                            icon = icons.starOutlined;
                           }
 
                           return (
@@ -265,13 +300,13 @@ const ProductDetailsPage = () => {
                         })}
                       </View>
                       <InterSemiboldText
-                        text={`(${productDetails?.review_stats?.total_ratings})`}
+                        text={`(${companyDetails?.review_stats?.total_ratings})`}
                         className="text-base text-text-neutral"
                       />
                     </View>
 
                     <InterSemiboldText
-                      text={`Reviews(${productDetails?.review_stats?.total_reviews})`}
+                      text={`Reviews(${companyDetails?.review_stats?.total_reviews})`}
                       className="text-base text-text-neutral"
                     />
                   </View>
@@ -329,50 +364,6 @@ const ProductDetailsPage = () => {
                     </View>
                   </View>
                 </View>
-              </View>
-
-              <View>
-                <View className="px-6 flex flex-row items-center justify-between mb-2">
-                  <InterSemiboldText
-                    text="Alternative Products"
-                    className="text-lg"
-                  />
-                  <InterSemiboldText
-                    text="See all"
-                    className="text-base text-accent-2"
-                  />
-                </View>
-
-                <ScrollView
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  className="flex flex-row  px-6 mb-8"
-                >
-                  <CroupierImage
-                    source={images.comingSoonProduct}
-                    className="w-[6.25rem] h-[8rem] mr-3"
-                  />
-                  <CroupierImage
-                    source={images.comingSoonProduct}
-                    className="w-[6.25rem] h-[8rem] mr-3"
-                  />
-                  <CroupierImage
-                    source={images.comingSoonProduct}
-                    className="w-[6.25rem] h-[8rem] mr-3"
-                  />
-                  <CroupierImage
-                    source={images.comingSoonProduct}
-                    className="w-[6.25rem] h-[8rem] mr-3"
-                  />
-                  <CroupierImage
-                    source={images.comingSoonProduct}
-                    className="w-[6.25rem] h-[8rem] mr-3"
-                  />
-                  <CroupierImage
-                    source={images.comingSoonProduct}
-                    className="w-[6.25rem] h-[8rem]"
-                  />
-                </ScrollView>
               </View>
 
               <View className="px-6 mb-5">
@@ -451,4 +442,4 @@ const ProductDetailsPage = () => {
   );
 };
 
-export default ProductDetailsPage;
+export default CompanyProfilePage;

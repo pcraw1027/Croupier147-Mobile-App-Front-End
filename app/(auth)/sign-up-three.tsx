@@ -60,6 +60,8 @@ const SignUpThreePage = () => {
           JSON.stringify(response.token)
         );
 
+        await AsyncStorage.setItem("user-email", JSON.stringify(user.email));
+
         helpers.openNotification({
           message: response.message,
           type: "success",

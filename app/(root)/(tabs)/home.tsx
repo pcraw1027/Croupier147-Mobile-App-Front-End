@@ -5,8 +5,9 @@ import HomeHightlightCard from "@/components/pageComponent/Home/HomeHighlightCar
 import HomeScanCard from "@/components/pageComponent/Home/HomeScanCard";
 import auth from "@/config/services/auth";
 import landing, { IHomeMyScan, IHomeTopScan } from "@/config/services/landing";
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ScrollView,
   StatusBar,
@@ -54,10 +55,12 @@ const Home = () => {
     },
   ]);
 
-  useEffect(() => {
-    getLandingMetrics();
-    getUserProfile();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getLandingMetrics();
+      getUserProfile();
+    }, [])
+  );
 
   const getLandingMetrics = async () => {
     try {
@@ -134,7 +137,9 @@ const Home = () => {
               image={{
                 uri: scan.media[0]?.file?.url,
               }}
-              rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
+              rating={
+                Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
+              }
               productId={scan.product_variant.product_id?.toString() ?? ""}
               className={getRandomBg()}
             />
@@ -166,7 +171,9 @@ const Home = () => {
               image={{
                 uri: scan.media[0]?.file?.url,
               }}
-              rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
+              rating={
+                Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
+              }
               productId={scan.product_variant.product_id?.toString() ?? ""}
               className={getRandomBg()}
             />

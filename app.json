@@ -53,7 +53,8 @@
             "./assets/fonts/InterBold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "expo": {
       "web": {

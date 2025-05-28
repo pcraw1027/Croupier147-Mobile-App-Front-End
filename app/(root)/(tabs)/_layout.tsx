@@ -27,7 +27,7 @@ const Layout = () => {
       initialRouteName="home"
       screenOptions={{
         tabBarActiveTintColor: "#0B9444",
-        tabBarInactiveTintColor: "#B8BBB5",
+        tabBarInactiveTintColor: "#7D8277",
         tabBarShowLabel: true,
         tabBarLabelStyle: {
           fontSize: 14,
@@ -49,7 +49,7 @@ const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              inactiveIcon={icons.homeInactive}
+              inactiveIcon={icons.homeInactiveDark}
               activeIcon={icons.homeActive}
             />
           ),
@@ -63,7 +63,7 @@ const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              inactiveIcon={icons.scanInactive}
+              inactiveIcon={icons.scanInactiveDark}
               activeIcon={icons.scanActive}
             />
           ),
@@ -77,7 +77,7 @@ const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              inactiveIcon={icons.searchInactive}
+              inactiveIcon={icons.searchInactiveDark}
               activeIcon={icons.searchActive}
             />
           ),
@@ -91,7 +91,7 @@ const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              inactiveIcon={icons.profileInactive}
+              inactiveIcon={icons.profileInactiveDark}
               activeIcon={icons.profileActive}
             />
           ),

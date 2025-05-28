@@ -34,6 +34,17 @@ const API = {
     },
     product: {
       getProductDetails: "/products/%product_id%",
+      getProductReviews: "/product_reviews?product_id=%product_id%",
+      getUserProductReview: "/user_product_review?product_id=%product_id%",
+      addProductReview: "/product_reviews",
+      editProductReview: "/reviews/%review_id%",
+    },
+    company: {
+      getCompanyDetails: "/companies/%company_id%",
+      getCompanyReviews: "/company_reviews?company_id=%company_id%",
+      getUserCompanyReview: "/user_company_review?company_id=%company_id%",
+      addCompanyReview: "/company_reviews",
+      editCompanyReview: "/reviews/%review_id%",
     },
   },
   timeout: 500000,
