@@ -49,7 +49,7 @@ const ResetPasswordSuccessPage = () => {
               <CustomButton
                 title="Back to sign in"
                 className="bg-green-light"
-                onPress={() => router.replace("/(auth)/sign-in")}
+                onPress={() => router.dismissTo("/(auth)/sign-in")}
               />
             </View>
           </ScrollView>

@@ -49,7 +49,7 @@ const TopScans = () => {
   return (
     <SafeAreaView className="bg-white-alt">
       <View className="bg-white-alt flex flex-col h-screen px-5">
-        <View className="flex flex-row items-center justify-between mb-3 ">
+        <View className="flex flex-row items-center justify-between my-3 ">
           <TouchableOpacity onPress={() => router.back()}>
             <CroupierImage
               source={icons.backIcon}
@@ -57,7 +57,7 @@ const TopScans = () => {
             />
           </TouchableOpacity>
 
-          <InterBoldText text="Top Scans" className="text-pry text-[24px]" />
+          <InterBoldText text="Top Scans" className="text-pry text-2xl" />
 
           <View className="w-[20px]" />
         </View>
@@ -82,7 +82,7 @@ const TopScans = () => {
                 rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
                 scanCount={scan.scan_count?.toString() ?? "0"}
                 productId={scan.product_variant?.product_id?.toString()}
-                className={getRandomBg()}
+                className="bg-white border border-stroke"
               />
             ))
           )}

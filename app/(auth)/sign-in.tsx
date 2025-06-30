@@ -32,9 +32,15 @@ const SignInPage = () => {
   });
 
   useEffect(() => {
+    AsyncStorage.getItem("user-password").then((storedPassword) => {
+      if (storedPassword) {
+        setForm((prev) => ({ ...prev, password: JSON.parse(storedPassword) }));
+      }
+    });
+
     AsyncStorage.getItem("user-email").then((storedEmail) => {
       if (storedEmail) {
-        setForm({ ...form, email: JSON.parse(storedEmail) });
+        setForm((prev) => ({ ...prev, email: JSON.parse(storedEmail) }));
       }
     });
   }, []);
@@ -54,6 +60,10 @@ const SignInPage = () => {
           JSON.stringify(response.token)
         );
 
+        await AsyncStorage.setItem(
+          "user-password",
+          JSON.stringify(form.password)
+        );
         await AsyncStorage.setItem("user-email", JSON.stringify(form.email));
 
         helpers.openNotification({

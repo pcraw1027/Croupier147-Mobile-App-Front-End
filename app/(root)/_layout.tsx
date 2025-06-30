@@ -38,6 +38,42 @@ const Layout = () => {
         name="scan/upload-success"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="profile/user-invites/user-invites"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/user-invites/add-invite"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/user-invites/invite-success"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/user-invites/invite-details"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/profile-information/index"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/personalization/index"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/change-password/index"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/activities/index"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="profile/activities/my-uploads"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 };

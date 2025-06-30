@@ -8,6 +8,7 @@ import useStore from "@/config/store";
 import { icons } from "@/icons";
 import { useIsFocused } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
+import * as ImageManipulator from "expo-image-manipulator";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -47,8 +48,27 @@ const UploadProductOnePage = () => {
 
   const takePhoto = async () => {
     if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync();
-      setPhotos([...photos, photo]);
+      const photo = await cameraRef.current.takePictureAsync({
+        exif: true,
+        fixOrientation: true,
+        skipProcessing: false,
+      });
+      // const orientation = photo.exif?.Orientation;
+      // let rotate = 0;
+      // if (orientation === 6) {
+      //   rotate = 90;
+      // } else if (orientation === 8) {
+      //   rotate = -90;
+      // } else if (orientation === 3) {
+      //   rotate = 180;
+      // }
+
+      const fixed = await ImageManipulator.manipulateAsync(photo.uri, [], {
+        compress: 1,
+        format: ImageManipulator.SaveFormat.JPEG,
+      });
+
+      setPhotos([...photos, fixed]);
       setIsPreviewVisible(true);
     }
   };
@@ -87,19 +107,20 @@ const UploadProductOnePage = () => {
                 facing="back"
                 ref={cameraRef}
               />
-              <TouchableOpacity onPress={() => takePhoto()}>
-                <View className="h-screen w-full">
-                  <View className="border-2 border-white w-[74px] h-[74px] rounded-full flex items-center justify-center fixed bottom-[-80%] left-1/2 -translate-x-1/2">
-                    <View className="bg-white w-[64px] h-[64px] rounded-full"></View>
-                  </View>
+              <TouchableWithoutFeedback
+                onPress={() => takePhoto()}
+                className="h-screen w-full"
+              >
+                <View className="border-2 border-white w-[74px] h-[74px] rounded-full flex items-center justify-center fixed bottom-[-80%] left-1/2 -translate-x-1/2">
+                  <View className="bg-white w-[64px] h-[64px] rounded-full"></View>
                 </View>
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
             </View>
           )}
         </SafeAreaView>
       ) : (
         <SafeAreaView className="bg-white h-screen">
-          <View className="flex flex-row items-center justify-between mb-10 px-5">
+          <View className="flex flex-row items-center justify-between mt-3 mb-10 px-5">
             <TouchableOpacity onPress={() => router.back()}>
               <CroupierImage
                 source={icons.backIcon}

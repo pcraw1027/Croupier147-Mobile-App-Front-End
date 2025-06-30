@@ -113,7 +113,7 @@ const SignUpOnePage = () => {
               />
               <TouchableOpacity
                 onPress={() => {
-                  router.back();
+                  router.push("/(auth)/waitlist");
                 }}
                 className="mb-[40px]"
               >

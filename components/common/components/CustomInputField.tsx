@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   KeyboardTypeOptions,
+  ReturnKeyTypeOptions,
   TextInput,
   TouchableWithoutFeedback,
   View,
@@ -21,6 +22,9 @@ declare interface InputFieldProps {
   multiline?: boolean;
   numberOfLines?: number;
   textarea?: boolean;
+  returnKeyType?: ReturnKeyTypeOptions;
+  hasCancel?: boolean;
+  onCancel?: () => void;
 }
 
 const CustomInputField = ({
@@ -37,6 +41,9 @@ const CustomInputField = ({
   multiline = false,
   numberOfLines = 1,
   textarea = false,
+  returnKeyType,
+  hasCancel,
+  onCancel,
   ...props
 }: InputFieldProps) => {
   const [focus, setFocus] = useState(false);
@@ -59,9 +66,7 @@ const CustomInputField = ({
       <InterMediumText
         text={label ?? ""}
         className={`absolute left-[20px] ${
-          handleLabelStyle()
-            ? "top-[10px] text-[14px]"
-            : "top-[20px] text-[16px]"
+          handleLabelStyle() ? "top-[6px] text-sm" : "top-[16px] text-base"
         } text-text-neutral`}
       />
 
@@ -80,6 +85,7 @@ const CustomInputField = ({
         maxLength={maxLength}
         multiline={multiline}
         numberOfLines={numberOfLines}
+        returnKeyType={returnKeyType}
         {...props}
       />
 
@@ -92,6 +98,14 @@ const CustomInputField = ({
               text={showPassword ? "Show" : "Hide"}
               className=" text-accent-2"
             />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+
+      {hasCancel && value.length > 0 && (
+        <TouchableWithoutFeedback onPress={() => onCancel!()}>
+          <View className="absolute right-0 p-[20px]">
+            <InterMediumText text="Cancel" className=" text-accent-2" />
           </View>
         </TouchableWithoutFeedback>
       )}

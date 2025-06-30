@@ -49,7 +49,7 @@ const UploadSuccessPage = () => {
               <CustomButton
                 title="Got it, Thank you"
                 className="bg-white"
-                onPress={() => router.replace("/(root)/(tabs)/home")}
+                onPress={() => router.dismissTo("/(root)/(tabs)/scan")}
               />
             </View>
           </ScrollView>

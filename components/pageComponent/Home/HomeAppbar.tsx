@@ -10,25 +10,22 @@ type AppbarProps = {
 
 const HomeAppbar = ({ username, title }: AppbarProps) => {
   return (
-    <View className="flex flex-row items-center justify-between mb-3 px-5">
+    <View className="flex flex-row items-center justify-between my-3 px-5">
       {title?.length! > 0 ? (
-        <InterBoldText text={title ?? ""} className="text-[24px]" />
+        <InterBoldText text={title ?? ""} className="text-2xl" />
       ) : username == undefined ? (
-        <InterBoldText text="Welcome 👋🏼" className="text-[24px]" />
+        <InterBoldText text="Welcome 👋🏼" className="text-2xl" />
       ) : (
         <View className="flex flex-row items-center">
-          <InterBoldText
-            text="Hi, "
-            className="text-[24px] text-text-neutral"
-          />
-          <InterBoldText text={`@${username}`} className="text-[24px]" />
+          <InterBoldText text="Hi, " className="text-2xl text-text-neutral" />
+          <InterBoldText text={`@${username}`} className="text-2xl" />
         </View>
       )}
 
       <CroupierImage
         source={images.croupierLogo}
         alt="logo"
-        className="w-[44px] h-[44px]"
+        className="w-[2.75rem] h-[2.75rem]"
       />
     </View>
   );

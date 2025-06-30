@@ -56,7 +56,6 @@ const ProductRatingsPage = () => {
   const [productDetails, setProductDetails] = useState<IProduct>();
   const [productReviews, setProductReviews] = useState<IReviews>();
   const [userReview, setUserReview] = useState<IUserReview>();
-  const [hideBtn, setHideBtn] = useState(false);
   const [form, setForm] = useState({
     title: "",
     rating: 0,
@@ -101,22 +100,18 @@ const ProductRatingsPage = () => {
 
   const handleShowEditBottomsheet = useCallback(() => {
     editBottomSheetModalRef.current?.present();
-    setHideBtn(true);
   }, []);
 
   const handleHideEditBottomsheet = useCallback(() => {
     editBottomSheetModalRef.current?.dismiss();
-    setHideBtn(false);
   }, []);
 
   const handleShowAddBottomsheet = useCallback(() => {
     addBottomSheetModalRef.current?.present();
-    setHideBtn(true);
   }, []);
 
   const handleHideAddBottomsheet = useCallback(() => {
     addBottomSheetModalRef.current?.dismiss();
-    setHideBtn(false);
   }, []);
 
   const getProductDetails = async () => {
@@ -252,254 +247,77 @@ const ProductRatingsPage = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView className="bg-white">
-        <ToastManager
-          showCloseIcon={false}
-          duration={5000}
-          animationStyle="upInUpOut"
-          animationOutTiming={500}
-          animationInTiming={500}
-          width={300}
-          textStyle={{
-            fontSize: 12,
-            fontFamily: "Inter-Medium",
-          }}
-        />
-        {loading ? (
-          <View className="flex items-center justify-center h-[90vh]">
-            <ActivityIndicator size="large" />
-          </View>
-        ) : (
-          <View className="h-full">
-            <View>
-              <View className="flex flex-row items-center justify-between mb-3 px-5">
-                <TouchableOpacity onPress={() => router.back()}>
-                  <CroupierImage
-                    source={icons.backIcon}
-                    className="w-[40px] h-[40px]"
-                  />
-                </TouchableOpacity>
-
-                <InterSemiboldText
-                  text="Product Ratings"
-                  className="text-pry text-2xl"
-                />
-
-                <View className="w-[20px]" />
-              </View>
+      <BottomSheetModalProvider>
+        <SafeAreaView className="bg-white">
+          <ToastManager
+            showCloseIcon={false}
+            duration={5000}
+            animationStyle="upInUpOut"
+            animationOutTiming={500}
+            animationInTiming={500}
+            width={300}
+            textStyle={{
+              fontSize: 12,
+              fontFamily: "Inter-Medium",
+            }}
+          />
+          {loading ? (
+            <View className="flex items-center justify-center h-[90vh]">
+              <ActivityIndicator size="large" />
             </View>
-
-            <ScrollView
-              contentContainerClassName="h-screen"
-              showsVerticalScrollIndicator={false}
-            >
+          ) : (
+            <View className="h-full">
               <View>
-                <View className="px-6 mb-5 mt-8">
+                <View className="flex flex-row items-center justify-between mb-3 px-5">
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <CroupierImage
+                      source={icons.backIcon}
+                      className="w-[40px] h-[40px]"
+                    />
+                  </TouchableOpacity>
+
                   <InterSemiboldText
                     text="Product Ratings"
-                    className="text-lg mb-1"
+                    className="text-pry text-2xl"
                   />
-                  <View className="flex flex-row items-center justify-between">
-                    <View className="flex flex-row items-center">
-                      <InterSemiboldText
-                        text={
-                          productDetails?.review_stats?.average_ratings?.toFixed(
-                            1
-                          ) ?? "0"
-                        }
-                        className="text-base text-accent-2 mr-1"
-                      />
-                      <View className="flex flex-row items-center mr-1">
-                        {[1, 2, 3, 4, 5].map((star) => {
-                          let icon;
-                          if (
-                            (productDetails?.review_stats?.average_ratings ??
-                              0) >= star
-                          ) {
-                            icon = icons.star;
-                          } else if (
-                            (productDetails?.review_stats?.average_ratings ??
-                              0) >=
-                            star - 0.5
-                          ) {
-                            icon = icons.starHalf;
-                          } else {
-                            icon = icons.starOutlined;
+
+                  <View className="w-[20px]" />
+                </View>
+              </View>
+
+              <ScrollView
+                contentContainerClassName="h-screen"
+                showsVerticalScrollIndicator={false}
+              >
+                <View>
+                  <View className="px-6 mb-5 mt-8">
+                    <InterSemiboldText
+                      text="Product Ratings"
+                      className="text-lg mb-1"
+                    />
+                    <View className="flex flex-row items-center justify-between">
+                      <View className="flex flex-row items-center">
+                        <InterSemiboldText
+                          text={
+                            productDetails?.review_stats?.average_ratings?.toFixed(
+                              1
+                            ) ?? "0"
                           }
-
-                          return (
-                            <CroupierImage
-                              key={star}
-                              source={icon}
-                              className="w-[20px] h-[20px]"
-                            />
-                          );
-                        })}
-                      </View>
-                      <InterSemiboldText
-                        text={`(${productDetails?.review_stats?.total_ratings})`}
-                        className="text-base text-text-neutral"
-                      />
-                    </View>
-                  </View>
-                </View>
-
-                <View className="px-6 mb-10">
-                  <View className="flex flex-row items-center justify-between mb-5">
-                    <InterMediumText
-                      text="5 star"
-                      className="text-text-dark text-[18px] mr-2"
-                    />
-                    <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
-                      <View
-                        className={`bg-amber rounded-[4px] h-full`}
-                        style={{
-                          width: `${+productDetails?.rating_distribution[
-                            "5"
-                          ]!}%`,
-                        }}
-                      ></View>
-                    </View>
-                    <InterMediumText
-                      text={`${
-                        Number.isNaN(+productDetails?.rating_distribution["5"]!)
-                          ? "0"
-                          : +productDetails?.rating_distribution["5"]!
-                      }%`}
-                      className="text-text-dark text-[18px] w-[75px]"
-                    />
-                  </View>
-
-                  <View className="flex flex-row items-center justify-between mb-5">
-                    <InterMediumText
-                      text="4 star"
-                      className="text-text-dark text-[18px] mr-2"
-                    />
-                    <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
-                      <View
-                        className={`bg-amber rounded-[4px] h-full`}
-                        style={{
-                          width: `${+productDetails?.rating_distribution[
-                            "4"
-                          ]!}%`,
-                        }}
-                      ></View>
-                    </View>
-                    <InterMediumText
-                      text={`${
-                        Number.isNaN(+productDetails?.rating_distribution["4"]!)
-                          ? "0"
-                          : +productDetails?.rating_distribution["4"]!
-                      }%`}
-                      className="text-text-dark text-[18px] w-[75px]"
-                    />
-                  </View>
-
-                  <View className="flex flex-row items-center justify-between mb-5">
-                    <InterMediumText
-                      text="3 star"
-                      className="text-text-dark text-[18px] mr-2"
-                    />
-                    <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
-                      <View
-                        className={`bg-amber rounded-[4px] h-full`}
-                        style={{
-                          width: `${+productDetails?.rating_distribution[
-                            "3"
-                          ]!}%`,
-                        }}
-                      ></View>
-                    </View>
-                    <InterMediumText
-                      text={`${
-                        Number.isNaN(+productDetails?.rating_distribution["3"]!)
-                          ? "0"
-                          : +productDetails?.rating_distribution["3"]!
-                      }%`}
-                      className="text-text-dark text-[18px] w-[75px]"
-                    />
-                  </View>
-
-                  <View className="flex flex-row items-center justify-between mb-5">
-                    <InterMediumText
-                      text="2 star"
-                      className="text-text-dark text-[18px] mr-2"
-                    />
-                    <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
-                      <View
-                        className={`bg-amber rounded-[4px] h-full`}
-                        style={{
-                          width: `${+productDetails?.rating_distribution[
-                            "2"
-                          ]!}%`,
-                        }}
-                      ></View>
-                    </View>
-                    <InterMediumText
-                      text={`${
-                        Number.isNaN(+productDetails?.rating_distribution["2"]!)
-                          ? "0"
-                          : +productDetails?.rating_distribution["2"]!
-                      }%`}
-                      className="text-text-dark text-[18px] w-[75px]"
-                    />
-                  </View>
-
-                  <View className="flex flex-row items-center justify-between">
-                    <InterMediumText
-                      text="1 star"
-                      className="text-text-dark text-[18px] mr-2"
-                    />
-                    <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
-                      <View
-                        className={`bg-amber rounded-[4px] h-full`}
-                        style={{
-                          width: `${+productDetails?.rating_distribution[
-                            "1"
-                          ]!}%`,
-                        }}
-                      ></View>
-                    </View>
-                    <InterMediumText
-                      text={`${
-                        Number.isNaN(+productDetails?.rating_distribution["1"]!)
-                          ? "0"
-                          : +productDetails?.rating_distribution["1"]!
-                      }%`}
-                      className="text-text-dark text-[18px] w-[75px]"
-                    />
-                  </View>
-                </View>
-
-                <View className="px-6 mb-5">
-                  <View className="flex flex-row items-center">
-                    <InterSemiboldText
-                      text="Product Reviews"
-                      className="text-[18px] text-text-dark"
-                    />
-                    <InterSemiboldText
-                      text={` (${productDetails?.review_stats?.total_reviews})`}
-                      className="text-[16px] text-text-neutral"
-                    />
-                  </View>
-
-                  {productReviews?.records?.map((review, idx) => (
-                    <View
-                      key={idx}
-                      className="mt-5 border-b border-stroke pb-5"
-                    >
-                      <View className="flex flex-row items-center justify-between mb-5">
-                        <InterBoldText
-                          text={review.title ?? "-"}
-                          className="text-[16px] text-text-dark flex-1"
-                          numberOfLines={1}
+                          className="text-base text-accent-2 mr-1"
                         />
                         <View className="flex flex-row items-center mr-1">
                           {[1, 2, 3, 4, 5].map((star) => {
                             let icon;
-                            if ((review?.rating ?? 0) >= star) {
+                            if (
+                              (productDetails?.review_stats?.average_ratings ??
+                                0) >= star
+                            ) {
                               icon = icons.star;
-                            } else if ((review?.rating ?? 0) >= star - 0.5) {
+                            } else if (
+                              (productDetails?.review_stats?.average_ratings ??
+                                0) >=
+                              star - 0.5
+                            ) {
                               icon = icons.starHalf;
                             } else {
                               icon = icons.starOutlined;
@@ -514,71 +332,264 @@ const ProductRatingsPage = () => {
                             );
                           })}
                         </View>
+                        <InterSemiboldText
+                          text={`(${productDetails?.review_stats?.total_ratings})`}
+                          className="text-base text-text-neutral"
+                        />
                       </View>
+                    </View>
+                  </View>
 
+                  <View className="px-6 mb-10">
+                    <View className="flex flex-row items-center justify-between mb-5">
                       <InterMediumText
-                        text={review.comment ?? "-"}
-                        className="text-[16px] text-text-dark leading-7 mb-4"
+                        text="5 star"
+                        className="text-text-dark text-[18px] mr-2"
                       />
+                      <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
+                        <View
+                          className={`bg-amber rounded-[4px] h-full`}
+                          style={{
+                            width: `${+productDetails?.rating_distribution[
+                              "5"
+                            ]!}%`,
+                          }}
+                        ></View>
+                      </View>
+                      <InterMediumText
+                        text={`${
+                          Number.isNaN(
+                            +productDetails?.rating_distribution["5"]!
+                          )
+                            ? "0"
+                            : +productDetails?.rating_distribution["5"]!
+                        }%`}
+                        className="text-text-dark text-[18px] w-[75px]"
+                      />
+                    </View>
 
-                      <View className="flex flex-row items-center justify-between">
-                        <View className="flex flex-row items-center">
-                          <View className="bg-green-dark flex items-center justify-center h-[24px] w-[24px] rounded-full">
-                            <InterText
-                              text={`${
-                                review.username?.substring(1, 0) ?? "-"
-                              }`}
-                              className="text-white uppercase text-center"
+                    <View className="flex flex-row items-center justify-between mb-5">
+                      <InterMediumText
+                        text="4 star"
+                        className="text-text-dark text-[18px] mr-2"
+                      />
+                      <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
+                        <View
+                          className={`bg-amber rounded-[4px] h-full`}
+                          style={{
+                            width: `${+productDetails?.rating_distribution[
+                              "4"
+                            ]!}%`,
+                          }}
+                        ></View>
+                      </View>
+                      <InterMediumText
+                        text={`${
+                          Number.isNaN(
+                            +productDetails?.rating_distribution["4"]!
+                          )
+                            ? "0"
+                            : +productDetails?.rating_distribution["4"]!
+                        }%`}
+                        className="text-text-dark text-[18px] w-[75px]"
+                      />
+                    </View>
+
+                    <View className="flex flex-row items-center justify-between mb-5">
+                      <InterMediumText
+                        text="3 star"
+                        className="text-text-dark text-[18px] mr-2"
+                      />
+                      <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
+                        <View
+                          className={`bg-amber rounded-[4px] h-full`}
+                          style={{
+                            width: `${+productDetails?.rating_distribution[
+                              "3"
+                            ]!}%`,
+                          }}
+                        ></View>
+                      </View>
+                      <InterMediumText
+                        text={`${
+                          Number.isNaN(
+                            +productDetails?.rating_distribution["3"]!
+                          )
+                            ? "0"
+                            : +productDetails?.rating_distribution["3"]!
+                        }%`}
+                        className="text-text-dark text-[18px] w-[75px]"
+                      />
+                    </View>
+
+                    <View className="flex flex-row items-center justify-between mb-5">
+                      <InterMediumText
+                        text="2 star"
+                        className="text-text-dark text-[18px] mr-2"
+                      />
+                      <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
+                        <View
+                          className={`bg-amber rounded-[4px] h-full`}
+                          style={{
+                            width: `${+productDetails?.rating_distribution[
+                              "2"
+                            ]!}%`,
+                          }}
+                        ></View>
+                      </View>
+                      <InterMediumText
+                        text={`${
+                          Number.isNaN(
+                            +productDetails?.rating_distribution["2"]!
+                          )
+                            ? "0"
+                            : +productDetails?.rating_distribution["2"]!
+                        }%`}
+                        className="text-text-dark text-[18px] w-[75px]"
+                      />
+                    </View>
+
+                    <View className="flex flex-row items-center justify-between">
+                      <InterMediumText
+                        text="1 star"
+                        className="text-text-dark text-[18px] mr-2"
+                      />
+                      <View className="h-[24px] border border-stroke rounded-[4px] w-[65%] mr-2">
+                        <View
+                          className={`bg-amber rounded-[4px] h-full`}
+                          style={{
+                            width: `${+productDetails?.rating_distribution[
+                              "1"
+                            ]!}%`,
+                          }}
+                        ></View>
+                      </View>
+                      <InterMediumText
+                        text={`${
+                          Number.isNaN(
+                            +productDetails?.rating_distribution["1"]!
+                          )
+                            ? "0"
+                            : +productDetails?.rating_distribution["1"]!
+                        }%`}
+                        className="text-text-dark text-[18px] w-[75px]"
+                      />
+                    </View>
+                  </View>
+
+                  <View className="px-6 mb-5">
+                    <View className="flex flex-row items-center">
+                      <InterSemiboldText
+                        text="Product Reviews"
+                        className="text-[18px] text-text-dark"
+                      />
+                      <InterSemiboldText
+                        text={` (${productDetails?.review_stats?.total_reviews})`}
+                        className="text-[16px] text-text-neutral"
+                      />
+                    </View>
+
+                    {productReviews?.records?.map((review, idx) => (
+                      <View
+                        key={idx}
+                        className="mt-5 border-b border-stroke pb-5"
+                      >
+                        <View className="flex flex-row items-center justify-between mb-5">
+                          <InterBoldText
+                            text={review.title ?? "-"}
+                            className="text-[16px] text-text-dark flex-1"
+                            numberOfLines={1}
+                          />
+                          <View className="flex flex-row items-center mr-1">
+                            {[1, 2, 3, 4, 5].map((star) => {
+                              let icon;
+                              if ((review?.rating ?? 0) >= star) {
+                                icon = icons.star;
+                              } else if ((review?.rating ?? 0) >= star - 0.5) {
+                                icon = icons.starHalf;
+                              } else {
+                                icon = icons.starOutlined;
+                              }
+
+                              return (
+                                <CroupierImage
+                                  key={star}
+                                  source={icon}
+                                  className="w-[20px] h-[20px]"
+                                />
+                              );
+                            })}
+                          </View>
+                        </View>
+
+                        <InterMediumText
+                          text={review.comment ?? "-"}
+                          className="text-[16px] text-text-dark leading-7 mb-4"
+                        />
+
+                        <View className="flex flex-row items-center justify-between">
+                          <View className="flex flex-row items-center">
+                            <View className="bg-green-dark flex items-center justify-center h-[24px] w-[24px] rounded-full">
+                              <InterText
+                                text={`${
+                                  review.username?.substring(1, 0) ?? "-"
+                                }`}
+                                className="text-white uppercase text-center"
+                              />
+                            </View>
+
+                            <InterSemiboldText
+                              text={`@${review.username ?? "-"}`}
+                              className="ml-3 text-[14px] text-text-neutral"
                             />
                           </View>
 
-                          <InterSemiboldText
-                            text={`@${review.username ?? "-"}`}
-                            className="ml-3 text-[14px] text-text-neutral"
-                          />
-                        </View>
-
-                        <View>
-                          <InterMediumText
-                            text={`${moment(review?.created_at).format(
-                              "MMM D, YYYY"
-                            )} | ${review.country ?? "-"}`}
-                            className="text-[14px] text-text-neutral"
-                          />
+                          <View>
+                            <InterMediumText
+                              text={`${moment(review?.created_at).format(
+                                "MMM D, YYYY"
+                              )} | ${review.country ?? "-"}`}
+                              className="text-[14px] text-text-neutral"
+                            />
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  ))}
+                    ))}
+                  </View>
                 </View>
-              </View>
-            </ScrollView>
+              </ScrollView>
 
-            <View
-              className={`${
-                hideBtn ? "hidden" : "false"
-              } border-t border-stroke pt-3 px-6 fixed bottom-0 left-0 right-0 w-full z-10`}
-            >
-              <CustomButton
-                title={
-                  userReview == null
-                    ? "Rate & Review the Product"
-                    : "Edit Rating & Review"
-                }
-                onPress={() => {
-                  if (userReview == null) {
-                    handleShowAddBottomsheet();
-                  } else {
-                    handleShowEditBottomsheet();
+              <View className="border-t border-stroke pt-3 px-6 fixed bottom-0 left-0 right-0 w-full z-10">
+                <CustomButton
+                  title={
+                    userReview == null
+                      ? "Rate & Review the Product"
+                      : "Edit Rating & Review"
                   }
-                }}
-              />
-            </View>
+                  onPress={() => {
+                    if (userReview == null) {
+                      handleShowAddBottomsheet();
+                    } else {
+                      handleShowEditBottomsheet();
+                    }
+                  }}
+                />
+              </View>
 
-            {/* EDIT PRODUCT REVIEw */}
-            <BottomSheetModalProvider>
+              {/* EDIT PRODUCT REVIEW */}
               <BottomSheetModal
                 ref={editBottomSheetModalRef}
                 snapPoints={snapPoints}
+                handleIndicatorStyle={{
+                  backgroundColor: "#DDE3E0",
+                  width: 100,
+                  height: 8,
+                }}
+                backgroundStyle={{
+                  backgroundColor: "#ffffff",
+                  borderTopLeftRadius: 24,
+                  borderTopRightRadius: 24,
+                }}
                 keyboardBehavior="interactive"
                 keyboardBlurBehavior="restore"
                 android_keyboardInputMode="adjustResize"
@@ -677,13 +688,22 @@ const ProductRatingsPage = () => {
                   </KeyboardAvoidingView>
                 </BottomSheetScrollView>
               </BottomSheetModal>
-            </BottomSheetModalProvider>
 
-            {/* ADD PRODUCT REVIEw */}
-            <BottomSheetModalProvider>
+              {/* ADD PRODUCT REVIEw */}
+
               <BottomSheetModal
                 ref={addBottomSheetModalRef}
                 snapPoints={snapPoints}
+                handleIndicatorStyle={{
+                  backgroundColor: "#DDE3E0",
+                  width: 100,
+                  height: 8,
+                }}
+                backgroundStyle={{
+                  backgroundColor: "#ffffff",
+                  borderTopLeftRadius: 24,
+                  borderTopRightRadius: 24,
+                }}
                 keyboardBehavior="interactive"
                 keyboardBlurBehavior="restore"
                 android_keyboardInputMode="adjustResize"
@@ -782,12 +802,12 @@ const ProductRatingsPage = () => {
                   </KeyboardAvoidingView>
                 </BottomSheetScrollView>
               </BottomSheetModal>
-            </BottomSheetModalProvider>
 
-            <StatusBar barStyle={"dark-content"} />
-          </View>
-        )}
-      </SafeAreaView>
+              <StatusBar barStyle={"dark-content"} />
+            </View>
+          )}
+        </SafeAreaView>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 };

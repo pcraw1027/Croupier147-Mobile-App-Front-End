@@ -49,7 +49,7 @@ const MyScans = () => {
   return (
     <SafeAreaView className="bg-white-alt">
       <View className="bg-white-alt flex flex-col h-screen px-5">
-        <View className="flex flex-row items-center justify-between mb-3 ">
+        <View className="flex flex-row items-center justify-between my-3 ">
           <TouchableOpacity onPress={() => router.back()}>
             <CroupierImage
               source={icons.backIcon}
@@ -57,7 +57,7 @@ const MyScans = () => {
             />
           </TouchableOpacity>
 
-          <InterBoldText text="My Scans" className="text-pry text-[24px]" />
+          <InterBoldText text="My Scans" className="text-pry text-2xl" />
 
           <View className="w-[20px]" />
         </View>
@@ -74,15 +74,20 @@ const MyScans = () => {
             myScans?.map((scan, idx) => (
               <ProductScanCard
                 key={idx}
-                title={scan?.product_variant?.product_name ?? ""}
-                company={scan?.product_variant?.company_name ?? ""}
+                title={scan?.product_data?.product_variant?.product_name ?? ""}
+                company={
+                  scan?.product_data?.product_variant?.company_name ?? ""
+                }
                 image={{
-                  uri: scan?.media[0]?.file?.url,
+                  uri: scan?.product_data?.media?.[0]?.file?.url,
                 }}
-                rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
-                scanCount={scan.scan_count?.toString() ?? "0"}
-                productId={scan.product_variant?.product_id?.toString()}
-                className={getRandomBg()}
+                rating={
+                  scan?.product_data?.product_variant?.avrg_rating?.toString() ??
+                  "0"
+                }
+                scanCount={scan.product_data?.scan_count?.toString() ?? "0"}
+                productId={scan.product_data?.product_variant?.product_id?.toString()}
+                className="bg-white border border-stroke"
               />
             ))
           )}

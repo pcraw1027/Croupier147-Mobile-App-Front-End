@@ -19,6 +19,8 @@ import scanIllustration from "@/assets/images/scan-illustration.png";
 import searchIllustration from "@/assets/images/search-illustration.png";
 import shampoo from "@/assets/images/shampoo.png";
 import shaver from "@/assets/images/shaver.png";
+import inviteSuccess from "@/assets/images/success-invite.png";
+import waitlistSuccess from "@/assets/images/success-mail.png";
 import threeDlock from "@/assets/images/three-d-lock.png";
 
 import aboutUsIcon from "@/assets/icons/about-us.png";
@@ -29,6 +31,8 @@ import arrowRight from "@/assets/icons/arrow-right.png";
 import backIcon from "@/assets/icons/back-icon.png";
 import blueUpload from "@/assets/icons/blue-upload-icon.png";
 import bookmark from "@/assets/icons/bookmark.png";
+import boxScan from "@/assets/icons/box-scan.png";
+import boxUpload from "@/assets/icons/box-upload.png";
 import calendar from "@/assets/icons/calendar.png";
 import changePasswordIcon from "@/assets/icons/change-password.png";
 import clock from "@/assets/icons/clock.png";
@@ -48,6 +52,7 @@ import legalIcon from "@/assets/icons/legal.png";
 import likeFilled from "@/assets/icons/like-filled.png";
 import likeOutlined from "@/assets/icons/like-outlined.png";
 import logoutIcon from "@/assets/icons/logout.png";
+import mail from "@/assets/icons/mail.png";
 import personalisationIcon from "@/assets/icons/personalisation.png";
 import profileActive from "@/assets/icons/profile-active.png";
 import profileInactiveDark from "@/assets/icons/profile-inactive-dark.png";
@@ -88,6 +93,8 @@ export const images = {
   scanIllustration,
   searchIllustration,
   check,
+  waitlistSuccess,
+  inviteSuccess,
 };
 
 export const icons = {
@@ -134,4 +141,7 @@ export const icons = {
   deleteIcon,
   starOutlined,
   starHalf,
+  mail,
+  boxScan,
+  boxUpload,
 };

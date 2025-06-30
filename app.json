@@ -13,8 +13,7 @@
       "bundleIdentifier": "com.example.croupier",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      },
-      "buildNumber": "3"
+      }
     },
     "plugins": [
       "expo-router",
@@ -56,10 +55,8 @@
       ],
       "expo-web-browser"
     ],
-    "expo": {
-      "web": {
-        "bundler": "metro"
-      }
+    "web": {
+      "bundler": "metro"
     },
     "experiments": {
       "typedRoutes": true

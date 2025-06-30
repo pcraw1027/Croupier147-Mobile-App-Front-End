@@ -45,11 +45,15 @@ export interface IUserProfile extends ApiResponse {
     id: number;
     email: string;
     username: string;
+    first_name: string;
+    last_name: string;
     country: string;
     invite_code: string | null;
     postal_code: string;
     role: string;
     status: string;
+    app_notify_on?: boolean;
+    email_notify_on?: boolean;
   };
 }
 

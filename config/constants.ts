@@ -31,6 +31,7 @@ const API = {
       uploadProduct: "/upload_records",
       myScans: "/my_scans",
       topScans: "/top_scans",
+      myUploads: "/my_uploads",
     },
     product: {
       getProductDetails: "/products/%product_id%",
@@ -45,6 +46,15 @@ const API = {
       getUserCompanyReview: "/user_company_review?company_id=%company_id%",
       addCompanyReview: "/company_reviews",
       editCompanyReview: "/reviews/%review_id%",
+    },
+    search: {
+      search: "/search?q=%query%&page=1&per_page=20",
+      incrementProductSearch: "/products/%product_id%/increment_search",
+      incrementCompanySearch: "/companies/%company_id%/increment_search",
+    },
+    profile: {
+      updateProfile: "/update_profile",
+      updatePassword: "/update_password",
     },
   },
   timeout: 500000,

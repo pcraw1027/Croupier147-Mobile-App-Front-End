@@ -34,23 +34,35 @@ interface ILandingOpenMetrics extends ApiResponse {
 }
 
 export interface IHomeMyScan {
-  scan_count?: number;
-  product_variant: {
+  scan?: {
     id?: number;
     product_id?: number;
+    user_id?: number;
+    scan_date?: string;
     barcode?: string;
+    product_exists?: boolean;
     created_at?: string;
-    product_name?: string;
-    product_description?: string;
-    product_comany_id?: number;
-    company_name?: string;
-    avrg_rating?: number;
   };
-  media: {
-    file: {
-      url: string;
+  product_data?: {
+    scan_count?: number;
+    product_variant?: {
+      id?: number;
+      product_id?: number;
+      barcode?: string;
+      created_at?: string;
+      product_name?: string;
+      product_description?: string;
+      searches?: number;
+      product_comany_id?: number;
+      company_name?: string;
+      avrg_rating?: number;
     };
-  }[];
+    media?: {
+      file: {
+        url: string;
+      };
+    }[];
+  };
 }
 
 export interface IHomeTopScan {

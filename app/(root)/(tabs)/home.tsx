@@ -135,13 +135,18 @@ const Home = () => {
             <HomeScanCard
               key={idx}
               image={{
-                uri: scan.media[0]?.file?.url,
+                uri: scan.product_data?.media?.[0]?.file?.url,
               }}
               rating={
-                Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
+                Number(
+                  scan?.product_data?.product_variant?.avrg_rating
+                ).toFixed(1) ?? "0"
               }
-              productId={scan.product_variant.product_id?.toString() ?? ""}
-              className={getRandomBg()}
+              productId={
+                scan?.product_data?.product_variant?.product_id?.toString() ??
+                ""
+              }
+              className="bg-white border border-stroke"
             />
           ))}
         </ScrollView>
@@ -175,7 +180,7 @@ const Home = () => {
                 Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
               }
               productId={scan.product_variant.product_id?.toString() ?? ""}
-              className={getRandomBg()}
+              className="bg-white border border-stroke"
             />
           ))}
         </ScrollView>

@@ -23,7 +23,14 @@ export interface ICompany extends ApiResponse {
     logo?: {
       url: string;
     };
+    searches?: number;
   };
+  company_relationships?: {
+    parent_company?: {
+      id?: number;
+      name?: string;
+    };
+  }[];
   rating_distribution: {
     "1": string;
     "2": string;

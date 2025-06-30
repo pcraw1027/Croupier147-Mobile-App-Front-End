@@ -27,7 +27,9 @@ export interface IProduct extends ApiResponse {
     klass_id?: number;
     brick_id?: number;
     product_category_source_id?: number;
+    searches?: number;
   };
+  scans?: number;
   company_name?: string;
   product_variants: {
     product_variant: {

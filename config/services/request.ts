@@ -158,9 +158,28 @@ const put = async <T, X>({
     const response = await croupier.put(route, payload);
     return response.data as T;
   } catch (error: any) {
-    networkError(error?.code);
-    logger({ error });
-    return error?.response?.data;
+    if (error.response) {
+      // Server responded with a status outside the 2xx range
+      const errorMessage =
+        error.response.data?.error ||
+        error.response.data?.message ||
+        "An error occurred";
+      networkError(errorMessage);
+      logger({ error: errorMessage });
+      // console.log("got here");
+      throw new Error(errorMessage);
+    } else if (error.request) {
+      // No response received from the server
+      networkError("No response received from the server");
+      logger({ error: "No response received from the server" });
+      throw new Error("No response received from the server");
+    } else {
+      // Error setting up the request
+      networkError(error.message);
+      logger({ error: error.message });
+      // console.log("got here");
+      throw new Error(error.message);
+    }
   }
 };
 
@@ -176,9 +195,28 @@ const postFormDataPut = async <T, X>({
     const response = await croupier.put(route, payload, { headers });
     return response.data as T;
   } catch (error: any) {
-    networkError(error?.code);
-    logger({ error });
-    return error?.response?.data;
+    if (error.response) {
+      // Server responded with a status outside the 2xx range
+      const errorMessage =
+        error.response.data?.error ||
+        error.response.data?.message ||
+        "An error occurred";
+      networkError(errorMessage);
+      logger({ error: errorMessage });
+      // console.log("got here");
+      throw new Error(errorMessage);
+    } else if (error.request) {
+      // No response received from the server
+      networkError("No response received from the server");
+      logger({ error: "No response received from the server" });
+      throw new Error("No response received from the server");
+    } else {
+      // Error setting up the request
+      networkError(error.message);
+      logger({ error: error.message });
+      // console.log("got here");
+      throw new Error(error.message);
+    }
   }
 };
 
@@ -187,9 +225,28 @@ const destroy = async <T>({ route }: { route: string }): Promise<T> => {
     const response = await croupier.delete(route);
     return response.data as T;
   } catch (error: any) {
-    networkError(error?.code);
-    logger({ error });
-    return error?.response?.data;
+    if (error.response) {
+      // Server responded with a status outside the 2xx range
+      const errorMessage =
+        error.response.data?.error ||
+        error.response.data?.message ||
+        "An error occurred";
+      networkError(errorMessage);
+      logger({ error: errorMessage });
+      // console.log("got here");
+      throw new Error(errorMessage);
+    } else if (error.request) {
+      // No response received from the server
+      networkError("No response received from the server");
+      logger({ error: "No response received from the server" });
+      throw new Error("No response received from the server");
+    } else {
+      // Error setting up the request
+      networkError(error.message);
+      logger({ error: error.message });
+      // console.log("got here");
+      throw new Error(error.message);
+    }
   }
 };
 

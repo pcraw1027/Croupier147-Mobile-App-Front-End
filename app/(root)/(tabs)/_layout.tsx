@@ -34,7 +34,7 @@ const Layout = () => {
           fontFamily: "InterSemibold",
         },
         tabBarStyle: {
-          height: 100,
+          height: 80,
           paddingTop: 10,
           paddingLeft: 10,
           paddingRight: 10,

@@ -33,37 +33,37 @@ const ProductScanCard = ({
     <TouchableWithoutFeedback
       onPress={() => router.push(`/(root)/home/product-details/${productId}`)}
     >
-      <View className="bg-white rounded-[14px] px-[14px] py-[14px] mb-[30px] flex flex-row justify-between items-end">
+      <View className="bg-white rounded-[14px] px-[0.875rem] py-[0.875rem] mb-[30px] flex flex-row justify-between items-end">
         <View className="flex flex-row">
           <View
-            className={`w-[85px] h-[85px] flex items-center justify-center  rounded-[5px] mr-[14px] ${className}`}
+            className={`w-[5.3125rem] h-[5.3125rem] flex items-center justify-center  rounded-[5px] mr-[0.875rem] ${className}`}
           >
-            <CroupierImage source={image} className="w-[58px] h-[75px]" />
+            <CroupierImage source={image} className="w-full h-full" />
           </View>
 
-          <View className="">
+          <View className="flex-1">
             <InterSemiboldText
               text={title}
-              className="text-text-dark text-[16px] pb-[4px] w-[230px]"
+              className="text-text-dark text-base pb-[4px] w-[230px]"
               numberOfLines={1}
             />
 
             <View className="flex flex-row items-end justify-between">
-              <View>
+              <View className="flex flex-col items-start">
                 <InterSemiboldText
                   text={company}
-                  className="text-text-neutral text-[14px] pb-[5px]"
+                  className="text-text-neutral text-sm pb-[5px]"
                 />
                 <View className="bg-green-light px-[14px] py-[4px] rounded-[4px] mb-[4px]">
                   <InterMediumText
                     text={`${scanCount} Scans`}
-                    className="text-accent-2 text-[12px]"
+                    className="text-accent-2 text-xs"
                   />
                 </View>
                 <View className="flex flex-row">
                   <InterMediumText
                     text={rating}
-                    className="text-[12px] text-text-neutral"
+                    className="text-xs text-text-neutral"
                   />
                   <CroupierImage
                     source={icons.star}
@@ -75,7 +75,7 @@ const ProductScanCard = ({
               <View>
                 <CroupierImage
                   source={images.croupierScore}
-                  className="w-[56px] h-[56px]"
+                  className="w-[3.5rem] h-[3.5rem]"
                 />
               </View>
             </View>

@@ -70,9 +70,9 @@ export default function InitialScreen() {
     bgColors[Math.floor(Math.random() * bgColors.length)];
 
   return (
-    <SafeAreaView className="bg-white">
+    <SafeAreaView className="bg-white h-screen relative">
       <InitialScreenAppBar />
-      <ScrollView className="pt-5" contentContainerClassName="pb-[120px]">
+      <ScrollView className="pt-5" contentContainerClassName="pb-[90px]">
         <View className="px-[25px]">
           <InterSemiboldText text="Highlight" className="mb-5 text-[20px]" />
         </View>
@@ -113,7 +113,7 @@ export default function InitialScreen() {
               rating={
                 Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
               }
-              className={getRandomBg()}
+              className="bg-white border border-stroke"
             />
           ))}
         </ScrollView>
@@ -129,8 +129,14 @@ export default function InitialScreen() {
           ))}
         </View>
       </ScrollView>
-
-      <View className="fixed bottom-[120px] left-0 right-0 bg-white px-[28px] h-[100px] border-t border-stroke w-full flex flex-row items-center justify-between">
+      {/* ${
+          Dimensions.get("window").height > 870
+            ? "bottom-[13%]"
+            : "bottom-[15%]"
+        } */}
+      <View
+        className={`absolute bottom-0 left-0 right-0 bg-white px-[28px] h-[80px] border-t border-stroke w-full flex flex-row items-center justify-between`}
+      >
         <View className="flex items-center">
           <CroupierImage
             source={icons.homeActive}

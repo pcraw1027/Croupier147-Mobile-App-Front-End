@@ -43,8 +43,6 @@ const UploadProductTwoPage = () => {
           scanId: upload.scanId,
         };
 
-        console.log("Payload:", payload.scanId);
-
         const formData = new FormData();
 
         formData.append("upload_record[barcode]", payload.barcode);
@@ -60,8 +58,6 @@ const UploadProductTwoPage = () => {
             type: image.type || "image/jpeg",
           } as any);
         });
-
-        console.log("FormData:", formData);
 
         const response = await scan.uploadProduct(formData);
 
@@ -99,7 +95,7 @@ const UploadProductTwoPage = () => {
           fontFamily: "Inter-Medium",
         }}
       />
-      <View className="flex flex-row items-center justify-between mb-10 px-5">
+      <View className="flex flex-row items-center justify-between mt-3 mb-10 px-5">
         <TouchableOpacity onPress={() => router.back()}>
           <CroupierImage
             source={icons.backIcon}
@@ -122,23 +118,20 @@ const UploadProductTwoPage = () => {
           <View className="mb-20">
             <InterSemiboldText
               text="STEP 2 OF 2"
-              className="text-accent-2 tracking-[2px] mb-1"
+              className="text-sm text-accent-2 tracking-[2px] mb-1"
             />
             <InterBoldText
               text="Enter product details "
-              className="text-[28px] mb-12"
+              className="text-2xl mb-12"
             />
 
             <View className="flex flex-row items-center justify-between bg-white min-w-[17.5rem] px-6 py-4 rounded-[8px] mb-14">
               <View className="mr-5">
                 <InterSemiboldText
                   text="BARCODE"
-                  className="text-[12px] text-text-neutral tracking-wider"
+                  className="text-xs text-text-neutral tracking-wider"
                 />
-                <InterSemiboldText
-                  text={upload.barcode}
-                  className="text-[24px]"
-                />
+                <InterSemiboldText text={upload.barcode} className="text-2xl" />
               </View>
               <CroupierImage
                 source={images.barcode}

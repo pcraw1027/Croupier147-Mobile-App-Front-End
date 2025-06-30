@@ -13,6 +13,8 @@ const Layout = () => {
         name="reset-password-success"
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="waitlist" options={{ headerShown: false }} />
+      <Stack.Screen name="waitlist-success" options={{ headerShown: false }} />
     </Stack>
   );
 };
