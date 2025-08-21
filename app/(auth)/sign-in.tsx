@@ -18,7 +18,6 @@ import {
   ScrollView,
   StatusBar,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -87,7 +86,7 @@ const SignInPage = () => {
   const { handleSubmit, isSubmitting } = formik;
 
   return (
-    <SafeAreaView className="px-[25px] bg-white">
+    <SafeAreaView className="flex-1 bg-white">
       <ToastManager
         showCloseIcon={false}
         duration={5000}
@@ -100,31 +99,33 @@ const SignInPage = () => {
           fontFamily: "Inter-Medium",
         }}
       />
-
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerClassName="flex flex-col justify-between h-full"
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingHorizontal: 25,
+            paddingBottom: 20,
+          }}
           keyboardShouldPersistTaps="handled"
         >
-          <View className="flex flex-row items-center justify-end">
-            <TouchableOpacity
-              onPress={() => {
-                router.replace("/");
-              }}
-            >
+          <View className="flex flex-row items-center justify-end mt-4 mb-[120px]">
+            <TouchableOpacity onPress={() => router.replace("/")}>
               <CroupierImage
                 source={icons.closeIcon}
                 className="w-[40px] h-[40px]"
               />
             </TouchableOpacity>
           </View>
-          <View className="">
+
+          <View className="mt-4">
             <InterBoldText
               text="Sign in to continue"
-              className="text-[28px] mb-[40px]"
+              className="text-[28px] mb-[32px]"
             />
             <CustomInputField
               label="Email address"
@@ -142,41 +143,45 @@ const SignInPage = () => {
               onChangeText={(text) => setForm({ ...form, password: text })}
             />
 
-            <TouchableWithoutFeedback
-              onPress={() => router.push("/(auth)/forgot-password")}
-            >
-              <View className="flex flex-row items-center justify-end mb-[100px] pr-[20px]">
-                <InterSemiboldText
-                  text="Forgot password?"
-                  className="text-accent-2 text-[14px]"
-                />
-              </View>
-            </TouchableWithoutFeedback>
+            <View className="mb-[100px]">
+              <TouchableOpacity
+                onPress={() => router.push("/(auth)/forgot-password")}
+              >
+                <View className="flex flex-row items-center justify-end pr-[20px]">
+                  <InterSemiboldText
+                    text="Forgot password?"
+                    className="text-accent-2 text-[14px]"
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
 
             <CustomButton
               loading={isSubmitting}
               disabled={isSubmitting}
               title="Sign in"
-              className="mb-[80px]"
+              className="mb-[100px]"
               onPress={() => handleSubmit()}
             />
 
             <View className="flex flex-row items-center justify-center">
               <Link href="/(auth)/sign-up-one">
-                <InterSemiboldText
-                  text="Don't have an account? "
-                  className="text-[16px] text-text-neutral"
-                />
-                <InterSemiboldText
-                  text="Sign up"
-                  className="text-[16px] text-accent-2"
-                />
+                <View className="flex flex-row">
+                  <InterSemiboldText
+                    text="Don't have an account? "
+                    className="text-[16px] text-text-neutral"
+                  />
+                  <InterSemiboldText
+                    text="Sign up"
+                    className="text-[16px] text-accent-2"
+                  />
+                </View>
               </Link>
             </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 };

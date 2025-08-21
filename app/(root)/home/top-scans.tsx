@@ -1,7 +1,7 @@
 import CroupierImage from "@/components/common/components/CroupierImage";
 import InterBoldText from "@/components/common/components/Text/InterBoldText";
 import ProductScanCard from "@/components/pageComponent/Home/ProductScanCard";
-import scan, { IMyScan } from "@/config/services/scan";
+import scan, { ITopScan } from "@/config/services/scan";
 import { icons } from "@/icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const getRandomBg = () => bgColors[Math.floor(Math.random() * bgColors.length)];
 
 const TopScans = () => {
   const router = useRouter();
-  const [topScans, setTopScans] = useState<IMyScan[]>();
+  const [topScans, setTopScans] = useState<ITopScan[]>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -76,13 +76,11 @@ const TopScans = () => {
                 key={idx}
                 title={scan?.product_variant?.product_name ?? ""}
                 company={scan?.product_variant?.company_name ?? "-"}
-                image={{
-                  uri: scan?.media[0]?.file?.url,
-                }}
+                image={scan?.media[0]?.file?.url}
                 rating={scan.product_variant?.avrg_rating?.toString() ?? "0"}
                 scanCount={scan.scan_count?.toString() ?? "0"}
                 productId={scan.product_variant?.product_id?.toString()}
-                className="bg-white border border-stroke"
+                className="bg-white"
               />
             ))
           )}

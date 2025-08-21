@@ -9,6 +9,7 @@ import logger from "@/logger.config";
 import { useIsFocused } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useRouter } from "expo-router";
+import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -20,6 +21,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ToastManager from "toastify-react-native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -36,6 +38,8 @@ const Scan = () => {
   const [showNoMatchFound, setShowNoMatchFound] = useState(false);
   const [hasScanned, setHasScanned] = useState(false);
 
+  const supportedFormats = ["ean13", "upc_a", "ean8", "upc_e"];
+
   const isPermissionGranted = Boolean(permission?.granted);
 
   const upload = useStore((state) => state.upload);
@@ -48,31 +52,42 @@ const Scan = () => {
 
     setCode("");
     setShowNoMatchFound(false);
-  }, [isFocused]);
+    setHasScanned(false);
+  }, [isFocused, isPermissionGranted]);
 
-  useEffect(() => {
-    console.log(`hasScanned: ${hasScanned}`, `loading: ${loading}`);
-  }, [hasScanned, loading]);
+  const handleScan = async (data: any, type: string) => {
+    if (!supportedFormats.includes(type)) {
+      helpers.openNotification({
+        message: "Barcode format not currently supported",
+        type: "error",
+      });
+      return;
+    }
 
-  const handleScan = async (data: any) => {
+    if (hasScanned || loading) return;
+
     setHasScanned(true);
-    setLoading(true);
-
     Vibration.vibrate(200);
     try {
+      setLoading(true);
       setCode(data);
 
       const body = {
         scan: {
           barcode: data,
+          symbology: type,
         },
       };
-      console.log("getting here");
       const response = await scan.scanProduct(body);
 
       if (response?.scan?.product_exists == false) {
         setShowNoMatchFound(true);
-        setUpload({ ...upload, scanId: response?.scan?.id, barcode: data });
+        setUpload({
+          ...upload,
+          scanId: response?.scan?.id,
+          barcode: data,
+          barcode_symbology: type,
+        });
       } else {
         router.push({
           pathname: "/(root)/home/product-details/[id]",
@@ -86,10 +101,14 @@ const Scan = () => {
       });
       return logger(error);
     } finally {
-      setHasScanned(false);
       setLoading(false);
     }
   };
+
+  const debouncedHandleScan = debounce(handleScan, 1000, {
+    leading: true,
+    trailing: false,
+  });
 
   if (!isPermissionGranted) {
     return (
@@ -104,6 +123,18 @@ const Scan = () => {
 
   return (
     <>
+      <ToastManager
+        showCloseIcon={false}
+        duration={5000}
+        animationStyle="upInUpOut"
+        animationOutTiming={500}
+        animationInTiming={500}
+        width={300}
+        textStyle={{
+          fontSize: 12,
+          fontFamily: "Inter-Medium",
+        }}
+      />
       {showNoMatchFound == false ? (
         <SafeAreaView
           style={StyleSheet.absoluteFillObject}
@@ -115,10 +146,10 @@ const Scan = () => {
               facing="back"
               barcodeScannerSettings={{
                 barcodeTypes: [
-                  "qr",
                   "ean13",
-                  "ean8",
                   "upc_a",
+                  "qr",
+                  "ean8",
                   "upc_e",
                   "code39",
                   "code93",
@@ -129,9 +160,7 @@ const Scan = () => {
                 ],
               }}
               onBarcodeScanned={({ type, data }) => {
-                hasScanned === true || loading === true
-                  ? undefined
-                  : handleScan(data);
+                debouncedHandleScan(data, type);
               }}
             />
           )}

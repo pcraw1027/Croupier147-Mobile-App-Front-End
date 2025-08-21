@@ -4,6 +4,7 @@ import InterSemiboldText from "@/components/common/components/Text/InterSemibold
 import HomeAppbar from "@/components/pageComponent/Home/HomeAppbar";
 import constants from "@/config/constants";
 import auth from "@/config/services/auth";
+import useStore from "@/config/store";
 import { icons } from "@/icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
@@ -20,6 +21,7 @@ const Profile = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
+  const environment = useStore((state) => state.environment);
 
   useEffect(() => {
     getUserProfile();
@@ -44,7 +46,7 @@ const Profile = () => {
 
   return (
     <SafeAreaView className="bg-white-alt">
-      <HomeAppbar title="Profile" />
+      <HomeAppbar title="Profile" showSandbox={environment.sandbox} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}

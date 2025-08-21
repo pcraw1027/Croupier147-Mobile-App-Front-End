@@ -39,6 +39,7 @@ const UploadProductTwoPage = () => {
           companyName: form.companyName,
           remark: form.remark,
           barcode: upload.barcode,
+          barcodeSymbology: upload.barcode_symbology,
           image: upload.images,
           scanId: upload.scanId,
         };
@@ -46,6 +47,7 @@ const UploadProductTwoPage = () => {
         const formData = new FormData();
 
         formData.append("upload_record[barcode]", payload.barcode);
+        formData.append("upload_record[symbology]", payload.barcodeSymbology);
         formData.append("upload_record[product_name]", payload.productName);
         formData.append("upload_record[company_name]", payload.companyName);
         formData.append("upload_record[remarks]", payload.remark);
@@ -68,6 +70,7 @@ const UploadProductTwoPage = () => {
 
         router.replace("/(root)/scan/upload-success");
       } catch (error: any) {
+        console.log(error);
         helpers.openNotification({
           message: error.message,
           type: "error",
@@ -121,7 +124,7 @@ const UploadProductTwoPage = () => {
               className="text-sm text-accent-2 tracking-[2px] mb-1"
             />
             <InterBoldText
-              text="Enter product details "
+              text="Enter product details"
               className="text-2xl mb-12"
             />
 
@@ -146,6 +149,7 @@ const UploadProductTwoPage = () => {
                 setForm({ ...form, productName: value });
               }}
               className="mb-8"
+              autoCapitalize="words"
             />
 
             <CustomInputField
@@ -155,6 +159,7 @@ const UploadProductTwoPage = () => {
                 setForm({ ...form, companyName: value });
               }}
               className="mb-8"
+              autoCapitalize="words"
             />
 
             <CustomInputField

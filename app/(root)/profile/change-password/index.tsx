@@ -141,7 +141,7 @@ const ChangePasswordPage = () => {
           keyboardShouldPersistTaps="handled"
         >
           <View className="flex justify-between h-[80vh]">
-            <View className="pt-[30px]">
+            <View className="py-[30px]">
               <CustomInputField
                 label="Current password"
                 value={form.currentPassword}

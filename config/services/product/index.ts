@@ -31,6 +31,15 @@ export interface IProduct extends ApiResponse {
   };
   scans?: number;
   company_name?: string;
+  company_snapshot?: {
+    id?: number;
+    company_id?: number;
+    employee_demographics_transparency?: string;
+    employee_demographics_performance?: string;
+    projected_culture_and_identity?: string;
+    mgmt_composition_transparency?: string;
+    mgmt_composition_performance?: string;
+  };
   product_variants: {
     product_variant: {
       id: number;

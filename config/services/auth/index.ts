@@ -65,6 +65,11 @@ const verifyCode = (invite_code: string): Promise<ApiResponse> =>
     ),
   });
 
+const verifyUsername = (username: string): Promise<ApiResponse> =>
+  request.get({
+    route: routes.auth.verifyUsername.replace("%username%", username),
+  });
+
 const register = (payload: Payload): Promise<IPostRegister> =>
   request.post({
     payload,
@@ -90,6 +95,7 @@ const auth = {
   resetPassword,
   userProfile,
   verifyCode,
+  verifyUsername,
 };
 
 export default auth;

@@ -10,10 +10,18 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.example.croupier",
+      "bundleIdentifier": "com.croupier.croupier147",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
+    },
+    "android": {
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.croupier.croupier147",
+      "versionCode": 1
     },
     "plugins": [
       "expo-router",
@@ -52,8 +60,7 @@
             "./assets/fonts/InterBold.ttf"
           ]
         }
-      ],
-      "expo-web-browser"
+      ]
     ],
     "web": {
       "bundler": "metro"
@@ -66,16 +73,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "c95fbd9e-512b-4e4d-a7d2-43400a406d7f"
+        "projectId": "dce2b604-be3d-4f26-9259-3ef70c870f7e"
       }
     },
-    "owner": "croupier147",
-    "android": {
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.example.croupier"
-    }
+    "owner": "croupier"
   }
 }

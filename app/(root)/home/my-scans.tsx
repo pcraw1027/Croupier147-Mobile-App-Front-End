@@ -78,16 +78,14 @@ const MyScans = () => {
                 company={
                   scan?.product_data?.product_variant?.company_name ?? ""
                 }
-                image={{
-                  uri: scan?.product_data?.media?.[0]?.file?.url,
-                }}
+                image={scan?.product_data?.media?.[0]?.file?.url ?? ""}
                 rating={
                   scan?.product_data?.product_variant?.avrg_rating?.toString() ??
                   "0"
                 }
                 scanCount={scan.product_data?.scan_count?.toString() ?? "0"}
                 productId={scan.product_data?.product_variant?.product_id?.toString()}
-                className="bg-white border border-stroke"
+                className="bg-white"
               />
             ))
           )}

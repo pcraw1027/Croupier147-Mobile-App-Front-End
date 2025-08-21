@@ -121,6 +121,10 @@ export interface IUploads {
     remarks?: string;
     created_at?: string;
   };
+  scan?: {
+    product_id?: number;
+    barcode?: string;
+  };
   media?: {
     id?: number;
     file?: {

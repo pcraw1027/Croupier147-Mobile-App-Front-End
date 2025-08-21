@@ -4,10 +4,13 @@ import CustomInputField from "@/components/common/components/CustomInputField";
 import InterMediumText from "@/components/common/components/Text/InterMediumText";
 import InterSemiboldText from "@/components/common/components/Text/InterSemiboldText";
 import helpers from "@/components/common/utils/helper";
+import constants from "@/config/constants";
 import auth from "@/config/services/auth";
 import profile from "@/config/services/profile";
+import useStore from "@/config/store";
 import { icons } from "@/icons";
 import logger from "@/logger.config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -31,6 +34,18 @@ const PersonalizationPage = () => {
   });
   const [isAppEnabled, setIsAppEnabled] = useState(false);
   const [isEmailEnabled, setIsEmailEnabled] = useState(false);
+  const [profileRole, setProfileRole] = useState("");
+
+  const environment = useStore((state) => state.environment);
+  const setEnvironment = useStore((state) => state.setEnvironment);
+
+  const toggleEnvironment = async () => {
+    setEnvironment({ sandbox: !environment.sandbox });
+
+    await AsyncStorage.removeItem(constants.COOKIES.key);
+
+    router.replace("/(auth)/sign-in");
+  };
 
   useEffect(() => {
     getUserProfile();
@@ -46,6 +61,7 @@ const PersonalizationPage = () => {
       });
       setIsAppEnabled(response.user_profile.app_notify_on || false);
       setIsEmailEnabled(response.user_profile.email_notify_on || false);
+      setProfileRole(response.user_profile.role);
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
@@ -123,7 +139,7 @@ const PersonalizationPage = () => {
           keyboardShouldPersistTaps="handled"
         >
           <View className="flex justify-between h-[80vh]">
-            <View className="pt-[30px]">
+            <View className="py-[30px]">
               <CustomInputField
                 label="Country"
                 value={form.country}
@@ -160,7 +176,7 @@ const PersonalizationPage = () => {
                 />
               </View>
 
-              <View className="flex flex-row items-center justify-between">
+              <View className="flex flex-row items-center justify-between mb-[32px]">
                 <InterSemiboldText
                   text="Email notifications"
                   className="text-[16px]"
@@ -172,6 +188,18 @@ const PersonalizationPage = () => {
                   value={isEmailEnabled}
                 />
               </View>
+
+              {profileRole == "admin" ? (
+                <View className="flex flex-row items-center justify-between">
+                  <InterSemiboldText text="Sandbox" className="text-[16px]" />
+                  <Switch
+                    trackColor={{ false: "#ffffff", true: "#0B9444" }}
+                    thumbColor={environment.sandbox ? "#ffffff" : "#ffffff"}
+                    onValueChange={() => toggleEnvironment()}
+                    value={environment.sandbox}
+                  />
+                </View>
+              ) : null}
             </View>
 
             <CustomButton

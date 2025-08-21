@@ -8,6 +8,7 @@ interface UploadImage {
 
 interface Upload {
   barcode: string;
+  barcode_symbology: string;
   scanId: number;
   images: UploadImage[];
 }
@@ -24,6 +25,7 @@ export const createUploadSlice: StateCreator<UploadSlice> = (
   upload: {
     scanId: 0,
     barcode: "",
+    barcode_symbology: "",
     images: [],
   },
   setUpload: (uploadData) =>

@@ -1,4 +1,7 @@
+import article01_1 from "@/assets/images/article01_1.png";
+import article01_2 from "@/assets/images/article01_2.png";
 import barcode from "@/assets/images/barcode.png";
+import blackOwned from "@/assets/images/black-owned.png";
 import ceraveBrand from "@/assets/images/cerave-brand.png";
 import ceraveLotion from "@/assets/images/cerave-lotion.png";
 import cerave from "@/assets/images/cerave.png";
@@ -7,6 +10,7 @@ import comingSoonProduct from "@/assets/images/coming-soon-product.png";
 import croupierLogo from "@/assets/images/croupier-logo.png";
 import croupierScore80 from "@/assets/images/croupier-score-80.png";
 import croupierScore from "@/assets/images/croupier-score.png";
+import defaultImage from "@/assets/images/default-image.png";
 import garnierBrand from "@/assets/images/garnier-brand.png";
 import headShoulderProduct from "@/assets/images/head-shoulder.png";
 import highlight from "@/assets/images/highlight.png";
@@ -22,6 +26,7 @@ import shaver from "@/assets/images/shaver.png";
 import inviteSuccess from "@/assets/images/success-invite.png";
 import waitlistSuccess from "@/assets/images/success-mail.png";
 import threeDlock from "@/assets/images/three-d-lock.png";
+import womenOwned from "@/assets/images/women-owned.png";
 
 import aboutUsIcon from "@/assets/icons/about-us.png";
 import activitiesIcon from "@/assets/icons/activities.png";
@@ -59,6 +64,7 @@ import profileInactiveDark from "@/assets/icons/profile-inactive-dark.png";
 import profileInactive from "@/assets/icons/profile-inactive.png";
 import profileIcon from "@/assets/icons/profile.png";
 import redProduct from "@/assets/icons/red-product-icon.png";
+import redSearch from "@/assets/icons/red-search.png";
 import scanActive from "@/assets/icons/scan-active.png";
 import scanInactiveDark from "@/assets/icons/scan-inactive-dark.png";
 import scanInactive from "@/assets/icons/scan-inactive.png";
@@ -71,6 +77,8 @@ import star from "@/assets/icons/star.png";
 import yellowCompany from "@/assets/icons/yellow-company-icon.png";
 
 export const images = {
+  article01_1,
+  article01_2,
   croupierLogo,
   highlight,
   shaver,
@@ -95,6 +103,9 @@ export const images = {
   check,
   waitlistSuccess,
   inviteSuccess,
+  blackOwned,
+  womenOwned,
+  defaultImage,
 };
 
 export const icons = {
@@ -144,4 +155,5 @@ export const icons = {
   mail,
   boxScan,
   boxUpload,
+  redSearch,
 };

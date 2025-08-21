@@ -12,13 +12,11 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StatusBar,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -61,8 +59,10 @@ const SignUpOnePage = () => {
     }
   };
 
+  // 69890140
+
   return (
-    <SafeAreaView className="px-[25px] bg-white">
+    <SafeAreaView className="flex-1 bg-white">
       <ToastManager
         showCloseIcon={false}
         duration={5000}
@@ -77,18 +77,20 @@ const SignUpOnePage = () => {
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerClassName="flex flex-col justify-between h-full"
-          >
-            <View className="flex flex-row items-center justify-end">
-              <TouchableOpacity
-                onPress={() => {
-                  router.back();
-                }}
-              >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 20,
+          }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="px-[25px]">
+            <View className="flex flex-row items-center justify-end mb-[50px]">
+              <TouchableOpacity onPress={() => router.back()}>
                 <CroupierImage
                   source={icons.closeIcon}
                   className="w-[40px] h-[40px]"
@@ -96,7 +98,7 @@ const SignUpOnePage = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="">
+            <View className="mt-4">
               <View className="flex flex-row items-center justify-between mb-2">
                 <InterSemiboldText
                   text="CREATE ACCOUNT"
@@ -112,9 +114,7 @@ const SignUpOnePage = () => {
                 className="text-[28px] mb-2"
               />
               <TouchableOpacity
-                onPress={() => {
-                  router.push("/(auth)/waitlist");
-                }}
+                onPress={() => router.push("/(auth)/waitlist")}
                 className="mb-[40px]"
               >
                 <View className="flex flex-row">
@@ -137,6 +137,7 @@ const SignUpOnePage = () => {
                 value={user.inviteCode}
                 onChangeText={(text) => handleInputChange("inviteCode", text)}
               />
+
               {loading && (
                 <View className="flex flex-row justify-end">
                   <ActivityIndicator color="#0B9444" />
@@ -146,7 +147,7 @@ const SignUpOnePage = () => {
               <CustomInputField
                 label="Email address"
                 keyboardType="email-address"
-                className="mb-[120px] mt-[32px]"
+                className="mb-[100px] mt-[32px]"
                 value={user.email}
                 disabled={true}
                 onChangeText={(text) => handleInputChange("email", text)}
@@ -154,16 +155,13 @@ const SignUpOnePage = () => {
 
               <CustomButton
                 title="Continue"
-                className="mb-[80px]"
+                disabled={user.email.length <= 0}
+                className="mb-[32px]"
                 onPress={() => router.push("/(auth)/sign-up-two")}
               />
 
-              <TouchableOpacity
-                onPress={() => {
-                  router.back();
-                }}
-              >
-                <View className="flex flex-row items-center justify-center">
+              <TouchableOpacity onPress={() => router.back()}>
+                <View className="flex flex-row items-center justify-center mb-[20px]">
                   <InterSemiboldText
                     text="Already registered? "
                     className="text-[16px] text-text-neutral"
@@ -175,10 +173,10 @@ const SignUpOnePage = () => {
                 </View>
               </TouchableOpacity>
             </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 };

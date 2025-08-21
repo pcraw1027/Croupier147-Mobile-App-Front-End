@@ -1,10 +1,10 @@
-const ENVIRONMENT = {
-  development: process.env.NEXT_PUBLIC_ENVIRONMENT === "development",
-  production: process.env.NEXT_PUBLIC_ENVIRONMENT === "production",
+export const API_BASE_URLS = {
+  sandbox: "https://fast.track.staging.croupier147.com/api/v1",
+  prod: "https://fast.track.croupier147.com/api/v1",
 };
 
-const API = {
-  baseURL: "https://fast.track.croupier147.com/api/v1",
+export const API = {
+  baseURL: API_BASE_URLS.sandbox,
   error: {
     aborted: {
       code: "ECONNABORTED",
@@ -16,6 +16,7 @@ const API = {
   routes: {
     auth: {
       verfiyCode: "/verify_invite_code?invite_code=%invite_code%",
+      verifyUsername: "/verify_username?username=%username%",
       signUp: "/users",
       signIn: "/users/sign_in",
       forgotPassword: "/send_password_reset_instruction",
@@ -48,7 +49,7 @@ const API = {
       editCompanyReview: "/reviews/%review_id%",
     },
     search: {
-      search: "/search?q=%query%&page=1&per_page=20",
+      search: "/search?q=%query%&page=1&per_page=50",
       incrementProductSearch: "/products/%product_id%/increment_search",
       incrementCompanySearch: "/companies/%company_id%/increment_search",
     },
@@ -60,14 +61,13 @@ const API = {
   timeout: 500000,
 };
 
-const COOKIES = {
+export const COOKIES = {
   key: "croupier-user",
 };
 
 const constants = {
   API,
   COOKIES,
-  ENVIRONMENT,
 };
 
 export default constants;

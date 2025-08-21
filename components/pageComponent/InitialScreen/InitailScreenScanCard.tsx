@@ -19,7 +19,7 @@ const InitailScreenScanCard = ({ image, rating, className }: CardProps) => {
   return (
     <TouchableWithoutFeedback onPress={() => router.replace("/(auth)/sign-in")}>
       <View
-        className={`mr-5 flex items-center justify-center relative p-3 w-[100px] rounded-[8px] ${className}`}
+        className={`mr-5 flex items-center justify-center relative overflow-hidden p-3 w-[100px] rounded-[8px] ${className}`}
       >
         <CroupierImage
           source={images.scanGradient}

@@ -85,6 +85,7 @@ const CustomSearchInputField = ({
             textarea ? "pt-[32px]" : "pt-[20px]"
           } ${inputStyle}`}
           keyboardType={keyboardType}
+          autoCorrect={false}
           autoCapitalize={
             keyboardType == "email-address" ? "none" : "sentences"
           }

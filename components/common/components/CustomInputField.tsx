@@ -24,6 +24,7 @@ declare interface InputFieldProps {
   textarea?: boolean;
   returnKeyType?: ReturnKeyTypeOptions;
   hasCancel?: boolean;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
   onCancel?: () => void;
 }
 
@@ -44,6 +45,7 @@ const CustomInputField = ({
   returnKeyType,
   hasCancel,
   onCancel,
+  autoCapitalize = "sentences",
   ...props
 }: InputFieldProps) => {
   const [focus, setFocus] = useState(false);
@@ -76,7 +78,9 @@ const CustomInputField = ({
           textarea ? "pt-[32px]" : "pt-[20px]"
         } ${inputStyle}`}
         keyboardType={keyboardType}
-        autoCapitalize={keyboardType == "email-address" ? "none" : "sentences"}
+        autoCapitalize={
+          keyboardType == "email-address" ? "none" : autoCapitalize
+        }
         secureTextEntry={showPassword}
         editable={!disabled}
         onChangeText={onChangeText}

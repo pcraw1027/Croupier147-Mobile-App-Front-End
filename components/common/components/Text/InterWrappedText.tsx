@@ -23,6 +23,7 @@ const InterWrappedText = ({ text, className = "text-pry" }: TextProps) => {
         return (
           <Text
             key={index}
+            allowFontScaling={false}
             style={{
               fontFamily: isBold ? "InterBold" : "InterRegular",
               color: isBold ? "#31332E" : "#7D8277",

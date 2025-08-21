@@ -4,9 +4,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
+import { ApiProvider } from "@/config/context/ApiContext";
 import "../global.css";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -19,7 +19,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      const timer = setTimeout(() => {
+        SplashScreen.hideAsync();
+      }, 3000);
+      return () => clearTimeout(timer);
     }
   }, [loaded]);
 
@@ -28,25 +31,27 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
-          animation: "fade",
-          animationDuration: 0,
-        }}
-      />
-      <Stack.Screen name="(root)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="(auth)"
-        options={{
-          headerShown: false,
-          animation: "fade",
-          animationDuration: 0,
-        }}
-      />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <ApiProvider>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+            animation: "fade",
+            animationDuration: 0,
+          }}
+        />
+        <Stack.Screen name="(root)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(auth)"
+          options={{
+            headerShown: false,
+            animation: "fade",
+            animationDuration: 0,
+          }}
+        />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </ApiProvider>
   );
 }

@@ -17,6 +17,7 @@ const InterSemiboldText = ({
       style={{
         fontFamily: "InterSemiBold",
       }}
+      allowFontScaling={false}
       className={className}
       numberOfLines={numberOfLines}
     >

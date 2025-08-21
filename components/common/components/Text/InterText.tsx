@@ -12,6 +12,7 @@ const InterText = ({ text, className = "text-pry" }: TextProps) => {
       style={{
         fontFamily: "InterRegular",
       }}
+      allowFontScaling={false}
       className={className}
     >
       {text}

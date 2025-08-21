@@ -33,6 +33,7 @@ const UploadProductOnePage = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const [photos, setPhotos] = useState<Image[]>([]);
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [compressing, setCompressing] = useState(false);
   const router = useRouter();
 
   const upload = useStore((state) => state.upload);
@@ -46,30 +47,64 @@ const UploadProductOnePage = () => {
     }
   }, [isFocused]);
 
-  const takePhoto = async () => {
-    if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync({
-        exif: true,
-        fixOrientation: true,
-        skipProcessing: false,
-      });
-      // const orientation = photo.exif?.Orientation;
-      // let rotate = 0;
-      // if (orientation === 6) {
-      //   rotate = 90;
-      // } else if (orientation === 8) {
-      //   rotate = -90;
-      // } else if (orientation === 3) {
-      //   rotate = 180;
-      // }
+  // useEffect(() => {
+  //   if (!compressing && photos?.length) {
+  //     helpers.openNotification({
+  //       message: "Image compressed successfully!",
+  //       type: "success",
+  //     });
+  //   }
+  // }, [compressing, photos]);
 
-      const fixed = await ImageManipulator.manipulateAsync(photo.uri, [], {
-        compress: 1,
+  const takePhoto = async () => {
+    if (cameraRef.current && !compressing) {
+      try {
+        const photo = await cameraRef.current.takePictureAsync({
+          exif: true,
+          fixOrientation: true,
+          skipProcessing: false,
+        });
+
+        // Add the original photo to the state for immediate preview
+        setPhotos([
+          {
+            uri: photo.uri,
+            fileName: photo.fileName,
+            type: "image/jpeg",
+          },
+        ]);
+        setIsPreviewVisible(true);
+
+        // Compress the image in the background
+        compressImageInBackground(photo.uri);
+      } catch (error) {
+        helpers.openNotification({
+          message: "Error capturing photo",
+          type: "error",
+        });
+        console.error("Error capturing photo:", error);
+      }
+    }
+  };
+
+  const compressImageInBackground = async (uri: string) => {
+    try {
+      setCompressing(true);
+      const fixed = await ImageManipulator.manipulateAsync(uri, [], {
+        compress: 0.5,
         format: ImageManipulator.SaveFormat.JPEG,
       });
 
-      setPhotos([...photos, fixed]);
-      setIsPreviewVisible(true);
+      // Update the store with the compressed image
+      setUpload({ ...upload, images: [{ ...fixed, type: "image/jpeg" }] });
+    } catch (error) {
+      helpers.openNotification({
+        message: "Error compressing image",
+        type: "error",
+      });
+      console.error("Error compressing image:", error);
+    } finally {
+      setCompressing(false);
     }
   };
 
@@ -80,7 +115,13 @@ const UploadProductOnePage = () => {
   };
 
   const handleContinue = () => {
-    setUpload({ ...upload, images: photos });
+    if (compressing) {
+      helpers.openNotification({
+        message: "Please wait, image is still compressing",
+        type: "info",
+      });
+      return;
+    }
     router.push("/(root)/scan/upload-product-two");
   };
 
@@ -121,7 +162,13 @@ const UploadProductOnePage = () => {
       ) : (
         <SafeAreaView className="bg-white h-screen">
           <View className="flex flex-row items-center justify-between mt-3 mb-10 px-5">
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity
+              onPress={() => {
+                router.back();
+                setIsPreviewVisible(false);
+                setPhotos([]);
+              }}
+            >
               <CroupierImage
                 source={icons.backIcon}
                 className="w-[40px] h-[40px]"
@@ -143,13 +190,16 @@ const UploadProductOnePage = () => {
                   text="STEP 1 OF 2"
                   className="text-accent-2 tracking-[2px] mb-1"
                 />
-                <InterBoldText text="Add photos" className="text-[28px] mb-2" />
+                <InterBoldText
+                  text="Preview photo"
+                  className="text-[28px] mb-2"
+                />
                 <InterText
-                  text="Click Next if you’re happy with this picture, or click “+” to take another"
+                  text="Click Next if you’re happy with this picture, or take another"
                   className="text-[16px] text-text-neutral mb-10"
                 />
                 <View className={`flex flex-row flex-wrap gap-y-6 gap-x-5`}>
-                  <TouchableWithoutFeedback
+                  {/* <TouchableWithoutFeedback
                     onPress={() => {
                       if (photos.length < 5) {
                         setIsPreviewVisible(false);
@@ -167,16 +217,16 @@ const UploadProductOnePage = () => {
                         className="w-[100px] h-[100px]"
                       />
                     </View>
-                  </TouchableWithoutFeedback>
+                  </TouchableWithoutFeedback> */}
                   {photos?.map((photoUri, index) => (
                     <View key={index} className="relative">
                       <CroupierImage
                         source={{ uri: photoUri.uri }}
-                        className="w-[100px] h-[100px] rounded-2xl"
+                        className="w-[90vw] h-[18.75rem] rounded-2xl"
                         resizeMode="cover"
                       />
 
-                      <TouchableWithoutFeedback
+                      {/* <TouchableWithoutFeedback
                         onPress={() => deletePhoto(index)}
                       >
                         <View className="absolute top-2 right-2">
@@ -185,14 +235,28 @@ const UploadProductOnePage = () => {
                             className=" w-[24px] h-[24px]"
                           />
                         </View>
-                      </TouchableWithoutFeedback>
+                      </TouchableWithoutFeedback> */}
                     </View>
                   ))}
                 </View>
               </View>
 
-              <View>
-                <CustomButton title="Next" onPress={() => handleContinue()} />
+              <View className="flex flex-row gap-x-5">
+                <CustomButton
+                  title="Retake"
+                  onPress={() => {
+                    setIsPreviewVisible(false);
+                    setPhotos([]);
+                  }}
+                  className="flex-1 bg-green-light"
+                />
+                <CustomButton
+                  title={compressing ? "Compressing..." : "Next"}
+                  onPress={() => handleContinue()}
+                  className="flex-1"
+                  loading={compressing}
+                  disabled={compressing}
+                />
               </View>
             </View>
           </ScrollView>

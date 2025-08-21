@@ -81,6 +81,8 @@ const MyUploads = () => {
                   uri: upload?.media?.[0].file?.url ?? "",
                 }}
                 uploadDate={upload?.upload?.date}
+                status={upload.upload?.resolve_status}
+                productId={upload?.scan?.product_id}
                 className="bg-white border border-stroke"
               />
             ))

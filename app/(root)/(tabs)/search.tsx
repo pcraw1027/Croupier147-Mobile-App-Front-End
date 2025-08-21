@@ -9,6 +9,7 @@ import search, {
   SearchCompanies,
   SearchProducts,
 } from "@/config/services/search";
+import useStore from "@/config/store";
 import { icons, images } from "@/icons";
 import logger from "@/logger.config";
 import { useRouter } from "expo-router";
@@ -28,11 +29,12 @@ const Search = () => {
   const [debouncedText, setDebouncedText] = useState("");
   const [products, setProducts] = useState<SearchProducts[]>();
   const [companies, setCompanies] = useState<SearchCompanies[]>();
+  const environment = useStore((state) => state.environment);
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedText(searchText);
-    }, 500);
+    }, 1000);
 
     return () => {
       clearTimeout(handler);
@@ -70,7 +72,7 @@ const Search = () => {
 
   return (
     <SafeAreaView className="bg-white-alt px-5 h-full">
-      <HomeAppbar title="Search" />
+      <HomeAppbar title="Search" showSandbox={environment.sandbox} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -138,13 +140,28 @@ const Search = () => {
                         })
                       }
                     >
-                      <View className="mb-[20px] flex flex-row items-center gap-x-3">
-                        <CroupierImage
-                          source={{
-                            uri: company?.logo,
-                          }}
-                          className="w-[50px] h-[50px]"
-                        />
+                      <View className="mb-[20px] flex flex-row items-center gap-x-5">
+                        <View className="w-[100px] h-[100px] rounded-full bg-white flex items-center justify-center">
+                          {company?.logo ? (
+                            <CroupierImage
+                              source={{
+                                uri: company?.logo ?? "",
+                              }}
+                              className="w-[50px] h-[50px]"
+                            />
+                          ) : (
+                            <View className="flex items-center">
+                              <CroupierImage
+                                source={images.defaultImage}
+                                className="w-[32px] h-[32px]"
+                              />
+                              <InterMediumText
+                                text="Company Logo Not Available"
+                                className="text-xs text-center text-text-neutral"
+                              />
+                            </View>
+                          )}
+                        </View>
                         <InterWrappedText text={company?.name ?? "-"} />
                       </View>
                     </TouchableWithoutFeedback>
@@ -175,12 +192,25 @@ const Search = () => {
                         >
                           <View className="bg-white px-3 py-3 flex flex-row gap-x-3 rounded-[12px]">
                             <View className="w-[88px] h-[88px] flex items-center justify-center bg-amber-light rounded-[5px]">
-                              <CroupierImage
-                                source={{
-                                  uri: product?.media?.[0].file,
-                                }}
-                                className="w-[68px] h-[68px]"
-                              />
+                              {product?.media?.length ? (
+                                <CroupierImage
+                                  source={{
+                                    uri: product?.media?.[0]?.file,
+                                  }}
+                                  className="w-[68px] h-[68px]"
+                                />
+                              ) : (
+                                <View className="flex items-center">
+                                  <CroupierImage
+                                    source={images.defaultImage}
+                                    className="w-[32px] h-[32px]"
+                                  />
+                                  <InterMediumText
+                                    text="Product Image Not Available"
+                                    className="text-xs text-center text-text-neutral"
+                                  />
+                                </View>
+                              )}
                             </View>
                             <View className="flex-1">
                               <InterSemiboldText

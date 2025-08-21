@@ -1,10 +1,14 @@
 import { create } from "zustand";
 import { AuthSlice, createAuthSlice } from "./authStore";
-import { UploadSlice, createUploadSlice } from "./uploadStore";
+import { createEnvironmentSlice, EnvironmentSlice } from "./environment";
+import { createUploadSlice, UploadSlice } from "./uploadStore";
 
-const useStore = create<AuthSlice & UploadSlice>()((...a) => ({
-  ...createAuthSlice(...a),
-  ...createUploadSlice(...a),
-}));
+const useStore = create<AuthSlice & UploadSlice & EnvironmentSlice>()(
+  (...a) => ({
+    ...createAuthSlice(...a),
+    ...createUploadSlice(...a),
+    ...createEnvironmentSlice(...a),
+  })
+);
 
 export default useStore;

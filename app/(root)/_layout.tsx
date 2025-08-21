@@ -7,7 +7,11 @@ const Layout = () => {
       <Stack.Screen name="home/top-scans" options={{ headerShown: false }} />
       <Stack.Screen name="home/my-scans" options={{ headerShown: false }} />
       <Stack.Screen
-        name="home/highlight-details"
+        name="home/highlights/article-one"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="home/highlights/article-two"
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -20,6 +24,14 @@ const Layout = () => {
       />
       <Stack.Screen
         name="home/company-profile/[id]"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="home/parent-company-profile/[id]"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="home/subsidiary-company-profile/[id]"
         options={{ headerShown: false }}
       />
       <Stack.Screen

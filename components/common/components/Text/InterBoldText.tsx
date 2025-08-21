@@ -17,6 +17,7 @@ const InterBoldText = ({
       style={{
         fontFamily: "InterBold",
       }}
+      allowFontScaling={false}
       className={className}
       numberOfLines={numberOfLines}
     >

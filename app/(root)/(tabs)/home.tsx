@@ -5,6 +5,8 @@ import HomeHightlightCard from "@/components/pageComponent/Home/HomeHighlightCar
 import HomeScanCard from "@/components/pageComponent/Home/HomeScanCard";
 import auth from "@/config/services/auth";
 import landing, { IHomeMyScan, IHomeTopScan } from "@/config/services/landing";
+import useStore from "@/config/store";
+import { images } from "@/icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
@@ -55,6 +57,8 @@ const Home = () => {
     },
   ]);
 
+  const environment = useStore((state) => state.environment);
+
   useFocusEffect(
     useCallback(() => {
       getLandingMetrics();
@@ -98,7 +102,7 @@ const Home = () => {
           fontFamily: "Inter-Medium",
         }}
       />
-      <HomeAppbar username={username} />
+      <HomeAppbar username={username} showSandbox={environment.sandbox} />
       <ScrollView className="pt-5" contentContainerClassName="pb-[70px]">
         <View className="px-[25px]">
           <InterSemiboldText text="Highlight" className="mb-5 text-[20px]" />
@@ -106,41 +110,61 @@ const Home = () => {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          className="flex flex-row px-[25px] mb-8"
+          className="flex flex-row px-[25px]"
         >
-          <HomeHightlightCard />
-          <HomeHightlightCard />
-          <HomeHightlightCard />
+          <HomeHightlightCard
+            onPress={() => router.push("/home/highlights/article-one")}
+            image={images.article01_1}
+            title="The US wealth gap is large and growing, yet even worse for people of color"
+            time="5"
+            date="29 Jul, 2025"
+          />
+          <HomeHightlightCard
+            onPress={() => router.push("/home/highlights/article-two")}
+            image={images.highlight}
+            title="Wealth Gap: Understanding the Growing Wealth Gap in the U.S"
+            time="3"
+            date="22 Oct, 2024"
+          />
+          <HomeHightlightCard
+            onPress={() => router.push("/home/highlights/article-two")}
+            image={images.highlight}
+            title="Wealth Gap: Understanding the Growing Wealth Gap in the U.S"
+            time="3"
+            date="22 Oct, 2024"
+          />
         </ScrollView>
-        <View className="px-[25px] flex flex-row items-center justify-between mb-5">
-          <InterSemiboldText text="My Scans" className="text-[20px]" />
-          <TouchableWithoutFeedback
-            onPress={() => router.push("/(root)/home/my-scans")}
-          >
-            <View>
-              <InterSemiboldText
-                text="See all"
-                className="text-[16px] text-accent-2"
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        {(myScans?.length ?? 0) > 0 ? (
+          <View className="px-[25px] flex flex-row items-center justify-between mb-5 mt-8">
+            <InterSemiboldText text="My Scans" className="text-[20px]" />
+            <TouchableWithoutFeedback
+              onPress={() => router.push("/(root)/home/my-scans")}
+            >
+              <View>
+                <InterSemiboldText
+                  text="See all"
+                  className="text-[16px] text-accent-2"
+                />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        ) : null}
 
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          className="flex flex-row px-[25px] mb-8"
+          className="flex flex-row px-[25px]"
         >
           {myScans?.map((scan, idx) => (
             <HomeScanCard
               key={idx}
-              image={{
-                uri: scan.product_data?.media?.[0]?.file?.url,
-              }}
+              image={scan.product_data?.media?.[0]?.file?.url ?? ""}
               rating={
-                Number(
-                  scan?.product_data?.product_variant?.avrg_rating
-                ).toFixed(1) ?? "0"
+                Number(scan?.product_data?.product_variant?.avrg_rating) > 0
+                  ? Number(
+                      scan?.product_data?.product_variant?.avrg_rating
+                    ).toFixed(1)
+                  : "NR"
               }
               productId={
                 scan?.product_data?.product_variant?.product_id?.toString() ??
@@ -151,33 +175,35 @@ const Home = () => {
           ))}
         </ScrollView>
 
-        <View className="px-[25px] flex flex-row items-center justify-between mb-5">
-          <InterSemiboldText text="Top Scans" className="text-[20px]" />
-          <TouchableWithoutFeedback
-            onPress={() => router.push("/(root)/home/top-scans")}
-          >
-            <View>
-              <InterSemiboldText
-                text="See all"
-                className="text-[16px] text-accent-2"
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        {(topScans?.length ?? 0) > 0 ? (
+          <View className="px-[25px] flex flex-row items-center justify-between mb-5 mt-8">
+            <InterSemiboldText text="Top Scans" className="text-[20px]" />
+            <TouchableWithoutFeedback
+              onPress={() => router.push("/(root)/home/top-scans")}
+            >
+              <View>
+                <InterSemiboldText
+                  text="See all"
+                  className="text-[16px] text-accent-2"
+                />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        ) : null}
 
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          className="flex flex-row px-[25px] mb-8"
+          className="flex flex-row px-[25px]"
         >
           {topScans?.map((scan, idx) => (
             <HomeScanCard
               key={idx}
-              image={{
-                uri: scan.media[0]?.file?.url,
-              }}
+              image={scan.media[0]?.file?.url}
               rating={
-                Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
+                Number(scan?.product_variant?.avrg_rating) > 0
+                  ? Number(scan?.product_variant?.avrg_rating).toFixed(1)
+                  : "NR"
               }
               productId={scan.product_variant.product_id?.toString() ?? ""}
               className="bg-white border border-stroke"
@@ -185,7 +211,7 @@ const Home = () => {
           ))}
         </ScrollView>
 
-        <View className="px-[25px]">
+        <View className="px-[25px] mt-8">
           <InterSemiboldText
             text="Activity Stats"
             className="text-[20px] mb-5"

@@ -17,6 +17,7 @@ const InterMediumText = ({
       style={{
         fontFamily: "InterMedium",
       }}
+      allowFontScaling={false}
       className={className}
       numberOfLines={numberOfLines}
     >

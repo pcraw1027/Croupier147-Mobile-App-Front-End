@@ -15,6 +15,7 @@ interface ApiResponse {
 type Payload = Record<string, unknown>;
 
 export interface ICompany extends ApiResponse {
+  level_1_flag?: boolean;
   company: {
     id: number;
     name?: string;
@@ -24,13 +25,41 @@ export interface ICompany extends ApiResponse {
       url: string;
     };
     searches?: number;
+    black_owned?: boolean;
+    female_owned?: boolean;
   };
-  company_relationships?: {
+  parent_company?: {
     parent_company?: {
-      id?: number;
       name?: string;
+      id?: number;
     };
-  }[];
+  };
+  company_ceo?: {
+    id?: number;
+    first_name?: string;
+    last_name?: string;
+  };
+  company_snapshot?: {
+    id?: number;
+    company_id?: number;
+    employee_demographics_transparency?: string;
+    employee_demographics_performance?: string;
+    projected_culture_and_identity?: string;
+    mgmt_composition_transparency?: string;
+    mgmt_composition_performance?: string;
+  };
+  subsidiaries?: {
+    title?: string;
+    subsidiaries_companies?: {
+      child_company?: {
+        id?: number;
+        name?: string;
+        logo?: {
+          url?: string;
+        };
+      };
+    }[];
+  };
   rating_distribution: {
     "1": string;
     "2": string;

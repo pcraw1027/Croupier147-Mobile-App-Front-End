@@ -5,7 +5,7 @@ import InitialScreenActivityStatsCard from "@/components/pageComponent/InitialSc
 import InitialScreenAppBar from "@/components/pageComponent/InitialScreen/InitialScreenAppBar";
 import InitialScreenHighlightCard from "@/components/pageComponent/InitialScreen/InitialScreenHighlightCard";
 import landing, { IHomeTopScan } from "@/config/services/landing";
-import { icons } from "@/icons";
+import { icons, images } from "@/icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -79,30 +79,47 @@ export default function InitialScreen() {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          className="flex flex-row px-[25px] mb-8"
+          className="flex flex-row px-[25px]"
         >
-          <InitialScreenHighlightCard />
-          <InitialScreenHighlightCard />
-          <InitialScreenHighlightCard />
+          <InitialScreenHighlightCard
+            image={images.article01_1}
+            title="The US wealth gap is large and growing, yet even worse for people of color"
+            time="5"
+            date="29 Jul, 2025"
+          />
+          <InitialScreenHighlightCard
+            image={images.highlight}
+            title="Wealth Gap: Understanding the Growing Wealth Gap in the U.S"
+            time="3"
+            date="22 Oct, 2024"
+          />
+          <InitialScreenHighlightCard
+            image={images.highlight}
+            title="Wealth Gap: Understanding the Growing Wealth Gap in the U.S"
+            time="3"
+            date="22 Oct, 2024"
+          />
         </ScrollView>
-        <View className="px-[25px] flex flex-row items-center justify-between mb-5">
-          <InterSemiboldText text="Top Scans" className="text-[20px]" />
-          <TouchableWithoutFeedback
-            onPress={() => router.replace("/(auth)/sign-in")}
-          >
-            <View>
-              <InterSemiboldText
-                text="See all"
-                className="text-[16px] text-accent-2"
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        {(topScans?.length ?? 0) > 0 ? (
+          <View className="px-[25px] flex flex-row items-center justify-between mb-5 mt-8">
+            <InterSemiboldText text="Top Scans" className="text-[20px]" />
+            <TouchableWithoutFeedback
+              onPress={() => router.replace("/(auth)/sign-in")}
+            >
+              <View>
+                <InterSemiboldText
+                  text="See all"
+                  className="text-[16px] text-accent-2"
+                />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        ) : null}
 
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          className="flex flex-row px-[25px] mb-8"
+          className="flex flex-row px-[25px]"
         >
           {topScans?.map((scan, idx) => (
             <InitailScreenScanCard
@@ -111,14 +128,16 @@ export default function InitialScreen() {
                 uri: scan.media[0]?.file?.url,
               }}
               rating={
-                Number(scan?.product_variant?.avrg_rating).toFixed(1) ?? "0"
+                Number(scan?.product_variant?.avrg_rating) > 0
+                  ? Number(scan?.product_variant?.avrg_rating).toFixed(1)
+                  : "NR"
               }
               className="bg-white border border-stroke"
             />
           ))}
         </ScrollView>
 
-        <View className="px-[25px]">
+        <View className="px-[25px] mt-8">
           <InterSemiboldText
             text="Activity Stats"
             className="text-[20px] mb-5"

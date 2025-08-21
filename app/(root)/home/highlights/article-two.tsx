@@ -9,7 +9,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const HighlightDetailsPage = () => {
   const router = useRouter();
-
   return (
     <SafeAreaView className="bg-white">
       <View className="bg-white flex flex-col h-screen">

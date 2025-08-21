@@ -33,6 +33,7 @@ const Layout = () => {
           fontSize: 14,
           fontFamily: "InterSemibold",
         },
+        tabBarAllowFontScaling: false,
         tabBarStyle: {
           height: 80,
           paddingTop: 10,
@@ -45,6 +46,7 @@ const Layout = () => {
         name="home"
         options={{
           title: "Home",
+          tabBarAllowFontScaling: false,
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon
@@ -59,6 +61,7 @@ const Layout = () => {
         name="scan"
         options={{
           title: "Scan",
+          tabBarAllowFontScaling: false,
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon
@@ -73,6 +76,7 @@ const Layout = () => {
         name="search"
         options={{
           title: "Search",
+          tabBarAllowFontScaling: false,
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon
@@ -87,6 +91,7 @@ const Layout = () => {
         name="profile"
         options={{
           title: "Profile",
+          tabBarAllowFontScaling: false,
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon

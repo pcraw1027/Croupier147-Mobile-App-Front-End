@@ -9,7 +9,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const HighlightDetailsPage = () => {
   const router = useRouter();
-
   return (
     <SafeAreaView className="bg-white">
       <View className="bg-white flex flex-col h-screen">
@@ -28,16 +27,24 @@ const HighlightDetailsPage = () => {
         >
           <View className="relative w-full rounded-[12px] pb-5 px-5">
             <CroupierImage
-              source={images.highlight}
+              source={images.article01_1}
               resizeMode="cover"
               className="w-full h-[220px] rounded-[12px]"
             />
 
-            <View className="bg-green-light px-[12px] py-[4px] rounded-[4px] absolute top-4 left-8">
-              <InterSemiboldText
-                text="FINANCE"
-                className="text-[12px] text-accent-2 tracking-[1.4px]"
-              />
+            <View className="absolute top-4 left-8 flex flex-row items-center gap-x-2">
+              <View className="bg-green-light px-[12px] py-[4px] rounded-[4px] ">
+                <InterSemiboldText
+                  text="WEALTH GAP"
+                  className="text-[12px] text-accent-2 tracking-[1.4px]"
+                />
+              </View>
+              <View className="bg-green-light px-[12px] py-[4px] rounded-[4px] ">
+                <InterSemiboldText
+                  text="FINANCE"
+                  className="text-[12px] text-accent-2 tracking-[1.4px]"
+                />
+              </View>
             </View>
 
             <View className="flex flex-row items-center justify-between py-5 ">
@@ -48,7 +55,7 @@ const HighlightDetailsPage = () => {
                     className="w-[14px] h-[14px] mr-1"
                   />
                   <InterMediumText
-                    text="3 mins"
+                    text="5 mins"
                     className="text-text-neutral text-[14px]"
                   />
                 </View>
@@ -59,7 +66,7 @@ const HighlightDetailsPage = () => {
                     className="w-[14px] h-[14px] mr-1"
                   />
                   <InterMediumText
-                    text="22 Oct, 2024"
+                    text="29 Jul, 2025"
                     className="text-text-neutral text-[14px]"
                   />
                 </View>
@@ -72,7 +79,7 @@ const HighlightDetailsPage = () => {
             </View>
 
             <InterSemiboldText
-              text="Wealth Gap: Understanding the Growing Wealth Gap in the U.S"
+              text="The US wealth gap is large and growing, yet even worse for people of color"
               className="text-[20px] mb-5"
             />
 
@@ -84,7 +91,7 @@ const HighlightDetailsPage = () => {
                     className="w-[14px] h-[14px] mr-1"
                   />
                   <InterMediumText
-                    text="16 Likes"
+                    text="0 Likes"
                     className="text-accent-2 text-[16px]"
                   />
                 </View>
@@ -95,7 +102,7 @@ const HighlightDetailsPage = () => {
                     className="w-[14px] h-[14px] mr-1"
                   />
                   <InterMediumText
-                    text="6 comments"
+                    text="0 comments"
                     className="text-accent-2 text-[16px]"
                   />
                 </View>
@@ -108,12 +115,58 @@ const HighlightDetailsPage = () => {
             </View>
 
             <InterText
-              text="The accumulation of wealth enables a variety of freedoms, and removes limits on life that one might otherwise face. Federal Reserve data indicates that as of Q4 2021, the top 1% of households in the United States held 30.9% of the country's wealth, while the bottom 50% held 2.6%."
+              text="Search any reputable research source, such as Pew Research Center’s 2020 study, and the conclusion is the same - the US wealth gap between upper and middle/lower income households is larger than it has been in a century, and continues to grow.  In fact the wealth gap is growing faster than the income gap between lower and higher income families.  In short, the rich are getting richer faster. "
               className="text-[16px] text-text-neutral leading-7 my-5"
             />
 
             <InterText
-              text='"According to the Federal Reserve, white households held 84.5 percent of all U.S. wealth as of the fourth quarter of 2023"'
+              text='"The wealth divide among upper-income families and middle- and lower-income families is sharp and rising"'
+              className="text-[24px] leading-10 mb-5"
+            />
+
+            <InterText
+              text="This inequality increase has risen markedly since the early 1980s when, perhaps not coincidentally, ‘trickle-down economics’ and financial deregulation both entered the US economic discussion.  Not surprisingly more than two thirds of US adults believe that the economic system requires a major overhaul to address this problem.  Frustratingly puzzling is that those who tack to the political right, and therefore mainly herald from many of the poorest states, are only at about 50% in favour of a major economic system overhaul."
+              className="text-[16px] text-text-neutral leading-7 mb-5"
+            />
+
+            <InterText
+              text="Affordable healthcare, affordable college and the federal budget deficit are amongst those issues seen as higher priority by most Americans, along with (illegal) immigration having joined the list of high priorities in recent years.  Interestingly, each of these stated higher priorities have more than a tangential connection to US wealth inequality. It could be reasonably argued that by addressing the wealth gap these perceived larger issues might be greatly reduced, if not eliminated completely."
+              className="text-[16px] text-text-neutral leading-7 mb-5"
+            />
+
+            <InterText
+              text="However, in addition to this growing national wealth gap there is one segment of US society who are getting even poorer even faster."
+              className="text-[16px] text-text-neutral leading-7 mb-5"
+            />
+
+            <CroupierImage
+              source={images.article01_2}
+              resizeMode="cover"
+              className="w-full h-[220px] rounded-[12px] mb-5"
+            />
+
+            <InterText
+              text='"…their median wealth ($24,520) was about one-tenth the median wealth of households with a White householder ($250,400)"'
+              className="text-[24px] leading-10 mb-5"
+            />
+
+            <InterText
+              text="According to the US Census Bureau people of color (PoC) are 90% poorer than their white counterparts in the US.  The impact of this wealth gap on relative racial health outcomes, educational attainment, mortality and general life quality cannot be overstated.  Some suggest that PoC have achieved as much as their efforts and talents merit.  However, most others believe that within US society there exists a form of institutional racism manipulating access to opportunity based on race."
+              className="text-[16px] text-text-neutral leading-7 mb-5"
+            />
+
+            <InterText
+              text="Either way this does beg some searching questions.  Where does the racial wealth gap come from and how do we close it?  Is there a link between the racial wealth gap and our daily activities?  How many of our daily financial decisions help perpetuate this gap?  Could the now waning trend in corporate 'diversity' initiatives really help to address this problem?"
+              className="text-[16px] text-text-neutral leading-7 mb-5"
+            />
+
+            <InterText
+              text="There’s an even more strategic question to be considered in this topic area.  If PoC found a way to address their wealth inequality could it indicate a way for society in general to begin addressing the growing problem?  Given that PoC are fast becoming the majority of the US population perhaps the key to racial wealth equality is intrinsically that of the nation’s also anyway."
+              className="text-[16px] text-text-neutral leading-7 mb-5"
+            />
+
+            <InterText
+              text='"Five hundred years. That’s how long experts say it would take for Black people to reach economic parity with white people and close the racial wealth gap, given current trajectories."'
               className="text-[24px] leading-10 mb-5"
             />
 
