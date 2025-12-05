@@ -22,7 +22,8 @@ const HomeScanCard = ({ image, rating, className, productId }: CardProps) => {
       >
         <CroupierImage
           source={images.scanGradient}
-          className="w-[100px] h-[170px] rounded-[8px] absolute bottom-0 top-0 right-0 left-0"
+          resizeMode="cover"
+          className="w-[100px] h-[120px] rounded-[8px] absolute bottom-0 right-0 left-0"
         />
 
         {image ? (
@@ -46,7 +47,7 @@ const HomeScanCard = ({ image, rating, className, productId }: CardProps) => {
 
         <CroupierImage
           source={images.croupierScore}
-          className="w-[50px] h-[50px] absolute bottom-3 right-3 "
+          className="w-[50px] h-[50px] absolute bottom-3 right-2"
         />
       </View>
     </TouchableWithoutFeedback>

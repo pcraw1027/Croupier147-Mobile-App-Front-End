@@ -37,15 +37,16 @@ const PersonalizationPage = () => {
   const [profileRole, setProfileRole] = useState("");
 
   const environment = useStore((state) => state.environment);
-  const setEnvironment = useStore((state) => state.setEnvironment);
+  const toggleSandbox = useStore((state) => state.toggleSandbox);
+  // const setEnvironment = useStore((state) => state.setEnvironment);
 
-  const toggleEnvironment = async () => {
-    setEnvironment({ sandbox: !environment.sandbox });
+  // const toggleEnvironment = async () => {
+  //   setEnvironment({ sandbox: !environment.sandbox });
 
-    await AsyncStorage.removeItem(constants.COOKIES.key);
+  //   await AsyncStorage.removeItem(constants.COOKIES.key);
 
-    router.replace("/(auth)/sign-in");
-  };
+  //   router.replace("/");
+  // };
 
   useEffect(() => {
     getUserProfile();
@@ -195,7 +196,11 @@ const PersonalizationPage = () => {
                   <Switch
                     trackColor={{ false: "#ffffff", true: "#0B9444" }}
                     thumbColor={environment.sandbox ? "#ffffff" : "#ffffff"}
-                    onValueChange={() => toggleEnvironment()}
+                    onValueChange={() => {
+                      toggleSandbox();
+                      AsyncStorage.removeItem(constants.COOKIES.key);
+                      router.replace("/");
+                    }}
                     value={environment.sandbox}
                   />
                 </View>

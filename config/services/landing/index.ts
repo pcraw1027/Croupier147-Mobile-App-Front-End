@@ -17,6 +17,7 @@ type Payload = Record<string, unknown>;
 interface ILandingMetrics extends ApiResponse {
   my_scans: IHomeMyScan[];
   top_scans: IHomeTopScan[];
+  recent_scans: IHomeRecentScan[];
   activity_stats: {
     type: string;
     currentMonth: string;
@@ -26,6 +27,7 @@ interface ILandingMetrics extends ApiResponse {
 
 interface ILandingOpenMetrics extends ApiResponse {
   top_scans: IHomeTopScan[];
+  recent_scans: IHomeRecentScan[];
   activity_stats: {
     type: string;
     currentMonth: string;
@@ -66,6 +68,26 @@ export interface IHomeMyScan {
 }
 
 export interface IHomeTopScan {
+  scan_count?: number;
+  product_variant: {
+    id?: number;
+    product_id?: number;
+    barcode?: string;
+    created_at?: string;
+    product_name?: string;
+    product_description?: string;
+    product_comany_id?: number;
+    company_name?: string;
+    avrg_rating?: number;
+  };
+  media: {
+    file: {
+      url: string;
+    };
+  }[];
+}
+
+export interface IHomeRecentScan {
   scan_count?: number;
   product_variant: {
     id?: number;

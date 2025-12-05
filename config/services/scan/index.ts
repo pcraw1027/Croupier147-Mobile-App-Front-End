@@ -1,4 +1,5 @@
 import constants from "@/config/constants";
+import { PaginationPayload } from "@/config/types";
 import request from "../request";
 
 const {
@@ -104,6 +105,30 @@ export interface ITopScan {
   }[];
 }
 
+interface IRecentScanRecords extends ApiResponse {
+  records: IRecentScan[];
+}
+
+export interface IRecentScan {
+  scan_count?: number;
+  product_variant: {
+    id?: number;
+    product_id?: number;
+    barcode?: string;
+    created_at?: string;
+    product_name?: string;
+    product_description?: string;
+    product_comany_id?: number;
+    company_name?: string;
+    avrg_rating?: number;
+  };
+  media: {
+    file: {
+      url: string;
+    };
+  }[];
+}
+
 export interface IMyUploadsRecords extends ApiResponse {
   records: IUploads[];
 }
@@ -142,8 +167,33 @@ const uploadProduct = (payload: any): Promise<ApiResponse> =>
     route: routes.scan.uploadProduct,
   });
 
-const myScans = (): Promise<IMyScanRecords> =>
-  request.get({ route: routes.scan.myScans });
+const myScans = ({
+  pageLimit,
+  page,
+}: PaginationPayload): Promise<IMyScanRecords> =>
+  request.get({
+    route: routes.scan.myScans,
+    config: {
+      params: {
+        page,
+        per_page: pageLimit,
+      },
+    },
+  });
+
+const recentScans = ({
+  pageLimit,
+  page,
+}: PaginationPayload): Promise<IRecentScanRecords> =>
+  request.get({
+    route: routes.scan.recentScans,
+    config: {
+      params: {
+        page,
+        per_page: pageLimit,
+      },
+    },
+  });
 
 const topScans = (): Promise<ITopScanRecords> =>
   request.get({ route: routes.scan.topScans });
@@ -157,6 +207,7 @@ const scan = {
   myScans,
   topScans,
   myUploads,
+  recentScans,
 };
 
 export default scan;

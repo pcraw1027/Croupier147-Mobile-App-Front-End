@@ -65,10 +65,10 @@ const SignInPage = () => {
         );
         await AsyncStorage.setItem("user-email", JSON.stringify(form.email));
 
-        helpers.openNotification({
-          message: response.message,
-          type: "success",
-        });
+        // helpers.openNotification({
+        //   message: response.message,
+        //   type: "success",
+        // });
 
         router.replace("/(root)/(tabs)/home");
       } catch (error: any) {

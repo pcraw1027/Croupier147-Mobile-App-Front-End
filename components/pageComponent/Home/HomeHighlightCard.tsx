@@ -19,7 +19,7 @@ interface IProps {
 const HomeHightlightCard = ({ onPress, image, title, date, time }: IProps) => {
   return (
     <TouchableWithoutFeedback onPress={() => onPress()}>
-      <View className="bg-white-alt p-[10px] rounded-[12px] w-[200px] mr-6 flex">
+      <View className="bg-white-alt p-[10px] rounded-[12px] w-[200px] h-[240px] mr-6 flex">
         <CroupierImage
           source={image}
           className="w-[180px] h-[120px] rounded-[8px] mb-3"

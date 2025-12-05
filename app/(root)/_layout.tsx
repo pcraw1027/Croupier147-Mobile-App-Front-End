@@ -6,6 +6,7 @@ const Layout = () => {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="home/top-scans" options={{ headerShown: false }} />
       <Stack.Screen name="home/my-scans" options={{ headerShown: false }} />
+      <Stack.Screen name="home/recent-scans" options={{ headerShown: false }} />
       <Stack.Screen
         name="home/highlights/article-one"
         options={{ headerShown: false }}

@@ -2,14 +2,10 @@ import CroupierImage from "@/components/common/components/CroupierImage";
 import InterSemiboldText from "@/components/common/components/Text/InterSemiboldText";
 import { icons, images } from "@/icons";
 import { useRouter } from "expo-router";
-import {
-  ImageSourcePropType,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { TouchableWithoutFeedback, View } from "react-native";
 
 declare interface CardProps {
-  image: ImageSourcePropType;
+  image: string;
   rating: string;
   className: string;
 }
@@ -23,10 +19,23 @@ const InitailScreenScanCard = ({ image, rating, className }: CardProps) => {
       >
         <CroupierImage
           source={images.scanGradient}
-          className="w-[100px] h-[170px] rounded-[8px] absolute bottom-0 top-0 right-0 left-0"
+          resizeMode="cover"
+          className="w-[100px] h-[120px] rounded-[8px] absolute bottom-0 right-0 left-0"
         />
 
-        <CroupierImage source={image} className="w-[115px] h-[128px]" />
+        {image ? (
+          <CroupierImage
+            source={{
+              uri: image,
+            }}
+            className="w-[115px] h-[128px]"
+          />
+        ) : (
+          <CroupierImage
+            source={images.defaultImage}
+            className="w-[50px] h-[50px]"
+          />
+        )}
 
         <View className="absolute bottom-3 left-3 flex flex-row items-center">
           <InterSemiboldText text={rating} className="text-white text-[12px]" />
@@ -35,7 +44,7 @@ const InitailScreenScanCard = ({ image, rating, className }: CardProps) => {
 
         <CroupierImage
           source={images.croupierScore}
-          className="w-[50px] h-[50px] absolute bottom-3 right-3 "
+          className="w-[50px] h-[50px] absolute bottom-3 right-2"
         />
       </View>
     </TouchableWithoutFeedback>

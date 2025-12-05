@@ -1,7 +1,7 @@
 import CroupierImage from "@/components/common/components/CroupierImage";
 import InterBoldText from "@/components/common/components/Text/InterBoldText";
 import ProductScanCard from "@/components/pageComponent/Home/ProductScanCard";
-import scan, { IMyScan } from "@/config/services/scan";
+import scan, { IRecentScan } from "@/config/services/scan";
 import { icons } from "@/icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -24,9 +24,9 @@ const bgColors = [
 
 const getRandomBg = () => bgColors[Math.floor(Math.random() * bgColors.length)];
 
-const MyScans = () => {
+const RecentScans = () => {
   const router = useRouter();
-  const [myScans, setMyScans] = useState<IMyScan[]>();
+  const [recentScans, setRecentScans] = useState<IRecentScan[]>();
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [pagination, setPagination] = useState({
@@ -38,19 +38,23 @@ const MyScans = () => {
   const { page, pageLimit, hasMore } = pagination;
 
   useEffect(() => {
-    getMyScans(1, true);
+    getRecentScans(1, true);
   }, []);
 
-  const getMyScans = async (pageNum = 1, initial = false) => {
+  const getRecentScans = async (pageNum = 1, initial = false) => {
     if (loading || loadingMore) return;
 
     pageNum === 1 ? setLoading(true) : setLoadingMore(true);
 
     try {
-      const response = await scan.myScans({ page: pageNum, pageLimit });
+      const response = await scan.recentScans({ page: pageNum, pageLimit });
       const records = response.records || [];
 
-      setMyScans((prev) => (initial ? records : [...(prev ?? []), ...records]));
+      setRecentScans((prev) =>
+        initial ? records : [...(prev ?? []), ...records]
+      );
+
+      console.log(records.length, pageLimit);
 
       // update pagination state
       setPagination((prev) => ({
@@ -68,7 +72,7 @@ const MyScans = () => {
 
   const handleLoadMore = () => {
     if (hasMore && !loadingMore) {
-      getMyScans(page + 1);
+      getRecentScans(page + 1);
     }
   };
 
@@ -83,7 +87,7 @@ const MyScans = () => {
             />
           </TouchableOpacity>
 
-          <InterBoldText text="My Scans" className="text-pry text-2xl" />
+          <InterBoldText text="Recent Scans" className="text-pry text-2xl" />
 
           <View className="w-[20px]" />
         </View>
@@ -94,21 +98,16 @@ const MyScans = () => {
           </View>
         ) : (
           <FlatList
-            data={myScans}
+            data={recentScans}
             keyExtractor={(_, index) => index.toString()}
             renderItem={({ item }) => (
               <ProductScanCard
-                title={item?.product_data?.product_variant?.product_name ?? ""}
-                company={
-                  item?.product_data?.product_variant?.company_name ?? ""
-                }
-                image={item?.product_data?.media?.[0]?.file?.url ?? ""}
-                rating={
-                  item?.product_data?.product_variant?.avrg_rating?.toString() ??
-                  "0"
-                }
-                scanCount={item.product_data?.scan_count?.toString() ?? "0"}
-                productId={item.product_data?.product_variant?.product_id?.toString()}
+                title={item?.product_variant?.product_name ?? ""}
+                company={item?.product_variant?.company_name ?? "-"}
+                image={item?.media[0]?.file?.url}
+                rating={item.product_variant?.avrg_rating?.toString() ?? "0"}
+                scanCount={item.scan_count?.toString() ?? "0"}
+                productId={item.product_variant?.product_id?.toString()}
                 className="bg-white"
               />
             )}
@@ -132,4 +131,4 @@ const MyScans = () => {
   );
 };
 
-export default MyScans;
+export default RecentScans;
